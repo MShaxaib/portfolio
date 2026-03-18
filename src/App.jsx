@@ -68,7 +68,7 @@ export default function App() {
               M.Shazaib
             </h1>
 
-            <div className="flex gap-3 text-xs text-gray-300 sm:gap-4 sm:text-sm md:gap-7 md:text-[1.15rem]">
+            <div className="flex items-center gap-3 text-xs text-gray-300 sm:gap-4 sm:text-sm md:gap-7 md:text-[1.15rem]">
               <a href="#about" className="transition hover:text-cyan-300">
                 About
               </a>
@@ -77,6 +77,14 @@ export default function App() {
               </a>
               <a href="#contact" className="transition hover:text-cyan-300">
                 Contact
+              </a>
+              <a
+                href="/CV.pdf"
+                download="M_Shazaib_CV.pdf"
+                type="application/pdf"
+                className="rounded-lg border border-cyan-300/50 bg-cyan-900/30 px-3 py-2 text-[0.8rem] font-semibold text-cyan-100 transition hover:bg-cyan-500/30 hover:text-white"
+              >
+                Download CV
               </a>
             </div>
           </nav>
