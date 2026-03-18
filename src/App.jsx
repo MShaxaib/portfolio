@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
+const base = import.meta.env.BASE_URL;
 
 export default function App() {
   const projects = [
@@ -7,43 +8,43 @@ export default function App() {
       title: "VR Drone Simulator",
       description:
         "A VR training simulator with drone calibration, flight controls, and immersive interaction.",
-      image: "/projects/Drone.png",
+      image: '${base}projects/Drone.png',
     },
     {
       title: "Crime Scene Simulation",
       description:
         "A realistic VR crime scene simulation for investigative training and scenario analysis.",
-      image: "/projects/CrimeScene.png",
+      image: '${base}projects/CrimeScene.png',
     },
     {
       title: "Rowing Machine VR Experience",
       description:
         "An immersive VR experience using a real rowing machine for training and performance analysis.",
-      image: "/projects/Rowing.png",
+      image: '${base}projects/Rowing.png',
     },
     {
       title: "First Aid Training Simulation",
       description:
         "An immersive VR experience for first aid training and emergency response simulation.",
-      image: "/projects/FirstAid.png",
+      image: '${base}projects/FirstAid.png',
     },
     {
       title: "K9 Training Simulator",
       description:
         "An immersive VR experience for K9 training and simulation.",
-      image: "/projects/k9.png",
+      image: '${base}projects/k9.png',
     },
     {
       title: "Arson Investigation Simulation",
       description:
         "An immersive VR experience for arson investigation and evidence analysis.",
-      image: "/projects/Arson.png",
+      image: '${base}projects/Arson.png',
     },
     {
       title: "Driving Simulation",
       description:
         "An immersive VR experience for driving and traffic law training.",
-      image: "/projects/Driving.png",
+      image: '${base}projects/Driving.png',
     },
   ];
 
@@ -140,7 +141,7 @@ export default function App() {
                 <div className="aspect-video w-full">
                   <iframe
                     className="h-full w-full"
-                    src="https://youtu.be/Zgb_aXet-sk"
+                    src="https://www.youtube.com/embed/Zgb_aXet-sk"
                     title="Project Highlights Video"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
@@ -346,14 +347,14 @@ function Hero3DCard() {
           transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
         >
           <img
-            src="/vr-headset.png"
+            src='${base}vr-headset.png'
             alt="VR Headset"
             className="h-full w-full object-contain drop-shadow-[0_0_40px_rgba(34,211,238,0.5)]"
           />
         </motion.div>
 
         <motion.img
-          src="/controller.png"
+          src='${base}controller.png'
           alt="Controller"
           className="absolute right-[-200px]  w-50 -translate-y-1/2 drop-shadow-[0_0_30px_rgba(34,211,238,0.35)]"
           animate={{ y: [0, -35, 0] }}
