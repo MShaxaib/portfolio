@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function App() {
   const base = import.meta.env.BASE_URL;
@@ -58,7 +58,7 @@ export default function App() {
   const nextSlide = () => setActiveProject((s) => (s + 1) % projects.length);
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#0b1020] text-white">
+    <div className="relative isolate min-h-screen overflow-hidden bg-[#0b1020] text-white">
       <VRBackground />
 
       <div className="relative z-10">
@@ -370,21 +370,34 @@ export default function App() {
 
 function VRBackground() {
   const base = import.meta.env.BASE_URL;
+  const [isMobile, setIsMobile] = useState(false);
 
-  const dpadConfigs = Array.from({ length: 500 }, (_, i) => ({
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const syncIsMobile = (event) => setIsMobile(event.matches);
+
+    setIsMobile(mediaQuery.matches);
+    mediaQuery.addEventListener("change", syncIsMobile);
+
+    return () => mediaQuery.removeEventListener("change", syncIsMobile);
+  }, []);
+
+  const dpadCount = isMobile ? 90 : 500;
+
+  const dpadConfigs = Array.from({ length: dpadCount }, (_, i) => ({
     top: `${7 + (i * 6) % 83}%`,
     left: `${(i * 17) % 90}%`,
     width: 10 + (i % 6) * 4,
     rotate: (i * 90) % 360,
     hue: (i * 4) % 360,
-    opacity: 0.01 + ((i % 5) * 0.03),
+    opacity: isMobile ? 0.008 + ((i % 4) * 0.012) : 0.01 + ((i % 5) * 0.03),
     xMotion: (i % 3) * 5,
     yMotion: (i % 4) * -4,
     delay: (i % 4) * 0.5,
   }));
 
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden">
+    <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(34,211,238,0.16),transparent_28%),radial-gradient(circle_at_80%_20%,rgba(59,130,246,0.14),transparent_24%),linear-gradient(to_bottom,#08101f,#0b1020,#050816)]" />
 
       <div className="absolute inset-0 opacity-20 [background-image:linear-gradient(rgba(34,211,238,0.10)_1px,transparent_1px),linear-gradient(90deg,rgba(34,211,238,0.10)_1px,transparent_1px)] [background-size:90px_90px] [mask-image:radial-gradient(circle_at_center,black,transparent_85%)]" />
@@ -393,27 +406,34 @@ function VRBackground() {
         <motion.img
           key={`dpad-${idx}`}
           src={`${base}Dpad.png`}
-          alt="d-pad"
-          className="pointer-events-none absolute"
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute select-none"
           style={{
             top: cfg.top,
             left: cfg.left,
             width: `${cfg.width}px`,
             height: `${cfg.width}px`,
-            transform: `translate(-50%, -50%)`,
-            filter: `invert(1) sepia(1) saturate(900) hue-rotate(${cfg.hue}deg) contrast(1.4) brightness(1.1)`,
+            zIndex: 0,
+            transform: "translate3d(-50%, -50%, 0)",
+            filter: isMobile
+              ? "invert(1) saturate(0.8) brightness(0.7)"
+              : `invert(1) sepia(1) saturate(900) hue-rotate(${cfg.hue}deg) contrast(1.4) brightness(1.1)`,
             opacity: cfg.opacity,
+            willChange: isMobile ? "auto" : "transform, opacity",
           }}
           initial={{ x: 0, y: 0, rotate: cfg.rotate, opacity: cfg.opacity }}
           animate={{
-            x: [0, cfg.xMotion, 0],
-            y: [0, cfg.yMotion, 0],
-            rotate: [cfg.rotate, cfg.rotate + 10, cfg.rotate],
-            opacity: [cfg.opacity * 0.7, cfg.opacity, cfg.opacity * 0.7],
+            x: isMobile ? 0 : [0, cfg.xMotion, 0],
+            y: isMobile ? 0 : [0, cfg.yMotion, 0],
+            rotate: isMobile ? cfg.rotate : [cfg.rotate, cfg.rotate + 10, cfg.rotate],
+            opacity: isMobile
+              ? cfg.opacity
+              : [cfg.opacity * 0.7, cfg.opacity, cfg.opacity * 0.7],
           }}
           transition={{
-            duration: 6 + (idx % 3),
-            repeat: Infinity,
+            duration: isMobile ? 0 : 6 + (idx % 3),
+            repeat: isMobile ? 0 : Infinity,
             ease: "easeInOut",
             delay: cfg.delay,
           }}
