@@ -443,7 +443,7 @@ function Hero3DCard() {
         </motion.div>
 
         <motion.img
-          src={`${base}controller.png`}
+          src={`${base}controller2.png`}
           alt="Controller"
           className="absolute right-[-60px] top-1/2 w-16 -translate-y-1/2 drop-shadow-[0_0_30px_rgba(34,211,238,0.35)] sm:right-[-100px] sm:w-24 md:right-[-160px] md:w-32"
           animate={{ y: [0, -35, 0] }}
