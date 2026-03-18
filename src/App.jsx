@@ -79,7 +79,7 @@ export default function App() {
                 Contact
               </a>
               <a
-                href="/CV.pdf"
+                href={`${base}CV.pdf`}
                 download="M_Shazaib_CV.pdf"
                 type="application/pdf"
                 className="rounded-lg border border-cyan-300/50 bg-cyan-900/30 px-3 py-2 text-[0.8rem] font-semibold text-cyan-100 transition hover:bg-cyan-500/30 hover:text-white"
