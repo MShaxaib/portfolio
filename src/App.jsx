@@ -361,11 +361,56 @@ export default function App() {
 }
 
 function VRBackground() {
+  const base = import.meta.env.BASE_URL;
+
+  const dpadConfigs = Array.from({ length: 500 }, (_, i) => ({
+    top: `${7 + (i * 6) % 83}%`,
+    left: `${(i * 17) % 90}%`,
+    width: 10 + (i % 6) * 4,
+    rotate: (i * 90) % 360,
+    hue: (i * 4) % 360,
+    opacity: 0.01 + ((i % 5) * 0.03),
+    xMotion: (i % 3) * 5,
+    yMotion: (i % 4) * -4,
+    delay: (i % 4) * 0.5,
+  }));
+
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(34,211,238,0.16),transparent_28%),radial-gradient(circle_at_80%_20%,rgba(59,130,246,0.14),transparent_24%),linear-gradient(to_bottom,#08101f,#0b1020,#050816)]" />
 
       <div className="absolute inset-0 opacity-20 [background-image:linear-gradient(rgba(34,211,238,0.10)_1px,transparent_1px),linear-gradient(90deg,rgba(34,211,238,0.10)_1px,transparent_1px)] [background-size:90px_90px] [mask-image:radial-gradient(circle_at_center,black,transparent_85%)]" />
+
+      {dpadConfigs.map((cfg, idx) => (
+        <motion.img
+          key={`dpad-${idx}`}
+          src={`${base}Dpad.png`}
+          alt="d-pad"
+          className="pointer-events-none absolute"
+          style={{
+            top: cfg.top,
+            left: cfg.left,
+            width: `${cfg.width}px`,
+            height: `${cfg.width}px`,
+            transform: `translate(-50%, -50%)`,
+            filter: `invert(1) sepia(1) saturate(900) hue-rotate(${cfg.hue}deg) contrast(1.4) brightness(1.1)`,
+            opacity: cfg.opacity,
+          }}
+          initial={{ x: 0, y: 0, rotate: cfg.rotate, opacity: cfg.opacity }}
+          animate={{
+            x: [0, cfg.xMotion, 0],
+            y: [0, cfg.yMotion, 0],
+            rotate: [cfg.rotate, cfg.rotate + 10, cfg.rotate],
+            opacity: [cfg.opacity * 0.7, cfg.opacity, cfg.opacity * 0.7],
+          }}
+          transition={{
+            duration: 6 + (idx % 3),
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: cfg.delay,
+          }}
+        />
+      ))}
 
       <div className="absolute bottom-0 left-0 right-0 h-64 bg-[linear-gradient(to_top,rgba(34,211,238,0.07),transparent)]" />
     </div>
