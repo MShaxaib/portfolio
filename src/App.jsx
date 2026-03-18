@@ -331,6 +331,8 @@ function VRBackground() {
 }
 
 function Hero3DCard() {
+  const base = import.meta.env.BASE_URL;
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
