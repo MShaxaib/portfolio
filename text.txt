@@ -1,0 +1,43 @@
+{
+      title: "VR Drone Simulator",
+      description:
+        "A VR training simulator with drone calibration, flight controls, and immersive interaction.",
+      image: "/projects/Drone.png",
+    },
+    {
+      title: "Crime Scene Simulation",
+      description:
+        "A realistic VR crime scene simulation for investigative training and scenario analysis.",
+      image: "/projects/CrimeScene.png",
+    },
+    {
+      title: "Rowing Machine VR Experience",
+      description:
+        "An immersive VR experience using a real rowing machine for training and performance analysis.",
+      image: "/projects/Rowing.png",
+    },
+    {
+      title: "First Aid Training Simulation",
+      description:
+        "An immersive VR experience for first aid training and emergency response simulation.",
+      image: "/projects/FirstAid.png",
+    },
+    {
+      title: "K9 Training Simulator",
+      description:
+        "An immersive VR experience for K9 training and simulation.",
+      image: "/projects/k9.png",
+    },
+    {
+      title: "Arson Investigation Simulation",
+      description:
+        "An immersive VR experience for arson investigation and evidence analysis.",
+      image: "/projects/Arson.png",
+    },
+    {
+      title: "Driving Simulation",
+      description:
+        "An immersive VR experience for driving and traffic law training.",
+      image: "/projects/Driving.png",
+    },
+  ];
