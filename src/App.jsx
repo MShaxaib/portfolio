@@ -3,6 +3,7 @@ import { useState } from "react";
 
 export default function App() {
   const base = import.meta.env.BASE_URL;
+
   const projects = [
     {
       title: "VR Drone Simulator",
@@ -50,12 +51,10 @@ export default function App() {
 
   const [activeProject, setActiveProject] = useState(0);
 
-  // custom positioning controls for the 3D loop
-  const horizontalBias = 180; // + moves right, - moves left
-  const perspective = 1400; // higher = flatter, lower = deeper 3D
-  const cardBaseWidth = 360;
+  const horizontalBias = 180;
 
-  const prevSlide = () => setActiveProject((s) => (s - 1 + projects.length) % projects.length);
+  const prevSlide = () =>
+    setActiveProject((s) => (s - 1 + projects.length) % projects.length);
   const nextSlide = () => setActiveProject((s) => (s + 1) % projects.length);
 
   return (
@@ -64,9 +63,12 @@ export default function App() {
 
       <div className="relative z-10">
         <header className="border-b border-white/10 bg-black/10 backdrop-blur-md">
-          <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
-            <h1 className="text-2xl font-bold tracking-tight">M.Shazaib</h1>
-            <div className="flex gap-7 text-[1.25rem] text-gray-300">
+          <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 md:px-6 md:py-5">
+            <h1 className="text-lg font-bold tracking-tight sm:text-xl md:text-2xl">
+              M.Shazaib
+            </h1>
+
+            <div className="flex gap-3 text-xs text-gray-300 sm:gap-4 sm:text-sm md:gap-7 md:text-[1.15rem]">
               <a href="#about" className="transition hover:text-cyan-300">
                 About
               </a>
@@ -81,48 +83,53 @@ export default function App() {
         </header>
 
         <main>
-          <section className="mx-auto flex min-h-[70vh] max-w-6xl items-center px-6 py-20">
-            <div className="grid w-full items-center gap-12 md:grid-cols-2">
+          <section className="mx-auto flex min-h-[70vh] max-w-6xl items-center px-4 py-14 sm:px-6 sm:py-16 md:py-20">
+            <div className="grid w-full items-center gap-10 md:grid-cols-2 md:gap-12">
               <motion.div
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
+                className="order-2 md:order-1"
               >
-                <p className="mb-4 text-base uppercase tracking-[0.36em] text-cyan-200 drop-shadow-[0_0_18px_rgba(34,211,238,0.42)]">
+                <p className="mb-4 text-xs uppercase tracking-[0.28em] text-cyan-200 drop-shadow-[0_0_18px_rgba(34,211,238,0.42)] sm:text-sm md:text-base md:tracking-[0.36em]">
                   VR • Game Dev • Simulation
                 </p>
-                <h2 className="max-w-4xl text-5xl font-black leading-tight text-transparent bg-clip-text md:text-7xl bg-gradient-to-r from-cyan-300 via-sky-300 to-fuchsia-400 drop-shadow-[0_0_40px_rgba(124,211,254,0.4)]">
+
+                <h2 className="max-w-4xl bg-gradient-to-r from-cyan-300 via-sky-300 to-fuchsia-400 bg-clip-text text-4xl font-black leading-tight text-transparent drop-shadow-[0_0_40px_rgba(124,211,254,0.4)] sm:text-5xl md:text-6xl lg:text-7xl">
                   Immersive. Interactive. Real-Time.
                 </h2>
-                <p className="mt-6 max-w-2xl text-xl text-cyan-100/90 drop-shadow-[0_0_12px_rgba(34,211,238,0.32)]">
+
+                <p className="mt-6 max-w-2xl text-base text-cyan-100/90 drop-shadow-[0_0_12px_rgba(34,211,238,0.32)] sm:text-lg md:text-xl">
                   Game and VR simulation developer creating advanced training
                   systems and engaging digital experiences.
                 </p>
 
-                <div className="mt-8 flex flex-wrap gap-4">
+                <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                   <a
                     href="#projects"
-                    className="rounded-2xl bg-cyan-400 px-6 py-3 font-semibold text-black shadow-[0_0_35px_rgba(34,211,238,0.35),0_0_16px_rgba(34,211,238,0.25)] transition hover:scale-105 hover:shadow-[0_0_45px_rgba(34,211,238,0.45),0_0_20px_rgba(34,211,238,0.38)]"
+                    className="rounded-2xl bg-cyan-400 px-6 py-3 text-center font-semibold text-black shadow-[0_0_35px_rgba(34,211,238,0.35),0_0_16px_rgba(34,211,238,0.25)] transition hover:scale-105 hover:shadow-[0_0_45px_rgba(34,211,238,0.45),0_0_20px_rgba(34,211,238,0.38)]"
                   >
                     View Projects
                   </a>
                   <a
                     href="#contact"
-                    className="rounded-2xl border border-cyan-300/35 bg-cyan-700/20 px-6 py-3 font-semibold text-cyan-100 transition hover:bg-cyan-400/30 hover:shadow-[0_0_30px_rgba(34,211,238,0.38)]"
+                    className="rounded-2xl border border-cyan-300/35 bg-cyan-700/20 px-6 py-3 text-center font-semibold text-cyan-100 transition hover:bg-cyan-400/30 hover:shadow-[0_0_30px_rgba(34,211,238,0.38)]"
                   >
                     Contact Me
                   </a>
                 </div>
               </motion.div>
 
-              <Hero3DCard />
+              <div className="order-1 flex justify-center md:order-2">
+                <Hero3DCard />
+              </div>
             </div>
           </section>
 
-          <section id="about" className="mx-auto max-w-6xl px-6 py-16">
-            <div className="rounded-3xl border border-cyan-300/50 bg-cyan-900/20 p-8 backdrop-blur-sm shadow-[0_0_35px_rgba(34,211,238,0.35)]">
+          <section id="about" className="mx-auto max-w-6xl px-4 py-12 sm:px-6 md:py-16">
+            <div className="rounded-3xl border border-cyan-300/50 bg-cyan-900/20 p-6 shadow-[0_0_35px_rgba(34,211,238,0.35)] backdrop-blur-sm md:p-8">
               <h3 className="text-2xl font-bold text-cyan-100">About Me</h3>
-              <p className="mt-4 text-left text-cyan-100/85">
+              <p className="mt-4 text-left text-sm leading-7 text-cyan-100/85 sm:text-base">
                 I create high-fidelity, simulation-driven experiences across VR,
                 AR, and game development. My focus lies in building interactive
                 training systems, immersive environments, and seamless real-time
@@ -131,12 +138,19 @@ export default function App() {
             </div>
           </section>
 
-          <section id="project-summary" className="mx-auto max-w-6xl px-6 py-16">
-            <div className="rounded-3xl border border-cyan-300/50 bg-cyan-900/20 p-8 backdrop-blur-sm shadow-[0_0_35px_rgba(34,211,238,0.35)]">
-              <h3 className="text-3xl font-bold text-cyan-100">Project Highlights Video</h3>
-              <p className="mt-4 text-left text-cyan-100/85">
-                A selection of recent projects is shown below. Some work remains confidential due to its association with Abu Dhabi Police.
+          <section
+            id="project-summary"
+            className="mx-auto max-w-6xl px-4 py-12 sm:px-6 md:py-16"
+          >
+            <div className="rounded-3xl border border-cyan-300/50 bg-cyan-900/20 p-6 shadow-[0_0_35px_rgba(34,211,238,0.35)] backdrop-blur-sm md:p-8">
+              <h3 className="text-2xl font-bold text-cyan-100 md:text-3xl">
+                Project Highlights Video
+              </h3>
+              <p className="mt-4 text-left text-sm leading-7 text-cyan-100/85 sm:text-base">
+                A selection of recent projects is shown below. Some work remains
+                confidential due to its association with Abu Dhabi Police.
               </p>
+
               <div className="mt-6 overflow-hidden rounded-2xl border border-cyan-300/30 bg-black/40">
                 <div className="aspect-video w-full">
                   <iframe
@@ -151,41 +165,71 @@ export default function App() {
             </div>
           </section>
 
-          <section id="projects" className="mx-auto max-w-6xl px-6 py-16">
-            <div className="mb-20 flex items-center justify-between">
-              <h3 className="text-3xl font-bold text-cyan-100">Featured Projects</h3>
+          <section id="projects" className="mx-auto max-w-6xl px-4 py-12 sm:px-6 md:py-16">
+            <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between md:mb-16">
+              <h3 className="text-2xl font-bold text-cyan-100 md:text-3xl">
+                Featured Projects
+              </h3>
+
               <div className="flex items-center gap-2">
                 <button
                   onClick={prevSlide}
-                  className="rounded-lg border border-cyan-300/50 bg-cyan-900/30 px-4 py-2 text-cyan-100"
+                  className="rounded-lg border border-cyan-300/50 bg-cyan-900/30 px-4 py-2 text-sm text-cyan-100 transition hover:bg-cyan-800/40"
                 >
                   Prev
                 </button>
                 <button
                   onClick={nextSlide}
-                  className="rounded-lg border border-cyan-300/50 bg-cyan-900/30 px-4 py-2 text-cyan-100"
+                  className="rounded-lg border border-cyan-300/50 bg-cyan-900/30 px-4 py-2 text-sm text-cyan-100 transition hover:bg-cyan-800/40"
                 >
                   Next
                 </button>
               </div>
             </div>
 
-            <div className="relative mx-auto h-[480px] w-full max-w-[1100px] flex justify-center items-center">
+            {/* Mobile / small screens */}
+            <div className="space-y-4 md:hidden">
+              {projects.map((project) => (
+                <div
+                  key={project.title}
+                  className="rounded-3xl border border-cyan-300/40 bg-cyan-900/30 p-4 text-cyan-100 shadow-[0_0_30px_rgba(34,211,238,0.2)]"
+                >
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="h-52 w-full rounded-2xl object-cover"
+                  />
+                  <h4 className="mt-4 text-xl font-semibold">{project.title}</h4>
+                  <p className="mt-2 text-sm leading-6 text-gray-300">
+                    {project.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            {/* Desktop carousel */}
+            <div className="relative mx-auto hidden h-[480px] w-full max-w-[1100px] items-center justify-center md:flex">
               <div className="relative h-full w-full max-w-[900px] [perspective:1400px]">
                 {projects.map((project, index) => {
-                  const offset = ((index - activeProject + projects.length) % projects.length);
-                  const normalized = offset > projects.length / 2 ? offset - projects.length : offset;
+                  const offset =
+                    (index - activeProject + projects.length) % projects.length;
+                  const normalized =
+                    offset > projects.length / 2 ? offset - projects.length : offset;
 
                   const state = Math.abs(normalized);
+
                   const transforms = {
                     0: `translate(-50%, 0) translateX(${0 + horizontalBias}px) translateZ(260px) rotateY(0deg) scale(1.02)`,
                     1: `translate(-50%, 0) translateX(${220 + horizontalBias}px) translateZ(90px) rotateY(-25deg) scale(0.9)`,
-                    '-1': `translate(-50%, 0) translateX(${-220 + horizontalBias}px) translateZ(90px) rotateY(25deg) scale(0.9)`,
+                    "-1": `translate(-50%, 0) translateX(${-220 + horizontalBias}px) translateZ(90px) rotateY(25deg) scale(0.9)`,
                     2: `translate(-50%, 0) translateX(${390 + horizontalBias}px) translateZ(-30px) rotateY(-40deg) scale(0.8)`,
-                    '-2': `translate(-50%, 0) translateX(${-390 + horizontalBias}px) translateZ(-30px) rotateY(40deg) scale(0.8)`,
+                    "-2": `translate(-50%, 0) translateX(${-390 + horizontalBias}px) translateZ(-30px) rotateY(40deg) scale(0.8)`,
                   };
 
-                  const transform = transforms[normalized] || `translate(-50%, 0) translateX(${horizontalBias}px) translateZ(-140px) rotateY(60deg) scale(0.7)`;
+                  const transform =
+                    transforms[normalized] ||
+                    `translate(-50%, 0) translateX(${horizontalBias}px) translateZ(-140px) rotateY(60deg) scale(0.7)`;
+
                   const isActive = normalized === 0;
 
                   return (
@@ -197,7 +241,8 @@ export default function App() {
                         zIndex: isActive ? 50 : 20 - state,
                         opacity: isActive ? 1 : state > 2 ? 0.25 : 0.7,
                         filter: isActive ? "blur(0px)" : "blur(8px)",
-                        transition: "transform 1s ease, opacity 0.7s ease, filter 0.4s ease",
+                        transition:
+                          "transform 1s ease, opacity 0.7s ease, filter 0.4s ease",
                       }}
                     >
                       <img
@@ -214,32 +259,34 @@ export default function App() {
                 })}
               </div>
             </div>
-
           </section>
-          <section id="contact" className="mx-auto max-w-6xl px-6 py-20">
-            <div className="relative overflow-hidden rounded-[2rem] border border-cyan-300/30 bg-cyan-950/20 p-8 shadow-[0_0_40px_rgba(34,211,238,0.18)] backdrop-blur-xl md:p-12">
+
+          <section id="contact" className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20">
+            <div className="relative overflow-hidden rounded-[2rem] border border-cyan-300/30 bg-cyan-950/20 p-6 shadow-[0_0_40px_rgba(34,211,238,0.18)] backdrop-blur-xl md:p-12">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(34,211,238,0.14),transparent_28%),radial-gradient(circle_at_bottom_left,rgba(168,85,247,0.12),transparent_30%)]" />
               <div className="absolute -right-16 top-8 h-40 w-40 rounded-full bg-cyan-400/10 blur-3xl" />
               <div className="absolute -left-12 bottom-0 h-32 w-32 rounded-full bg-fuchsia-500/10 blur-3xl" />
 
-              <div className="relative z-10 grid items-center gap-10 md:grid-cols-[1.2fr_0.8fr]">
+              <div className="relative z-10 grid items-center gap-8 md:grid-cols-[1.2fr_0.8fr] md:gap-10">
                 <div>
                   <p className="mb-3 text-sm uppercase tracking-[0.32em] text-cyan-300/80">
                     Contact
                   </p>
+
                   <h3 className="text-3xl font-bold text-white md:text-4xl">
                     Let’s build something immersive together
                   </h3>
+
                   <p className="mt-4 max-w-2xl text-base leading-7 text-cyan-100/80 md:text-lg">
                     Interested in VR simulations, training systems, or interactive
                     real-time experiences? Reach out through email or WhatsApp and
                     let’s talk about your project.
                   </p>
 
-                  <div className="mt-8 flex flex-wrap items-center gap-4">
+                  <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">
                     <a
                       href="mailto:muhammad.shazaibb@gmail.com"
-                      className="inline-flex items-center gap-3 rounded-2xl bg-cyan-400 px-6 py-3 font-semibold text-slate-950 shadow-[0_0_30px_rgba(34,211,238,0.28)] transition hover:scale-[1.03] hover:shadow-[0_0_42px_rgba(34,211,238,0.38)]"
+                      className="inline-flex items-center justify-center gap-3 rounded-2xl bg-cyan-400 px-6 py-3 font-semibold text-slate-950 shadow-[0_0_30px_rgba(34,211,238,0.28)] transition hover:scale-[1.03] hover:shadow-[0_0_42px_rgba(34,211,238,0.38)]"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -251,7 +298,7 @@ export default function App() {
                       Email Me
                     </a>
 
-                    <span className="text-sm font-medium uppercase tracking-[0.22em] text-cyan-200/45">
+                    <span className="text-center text-sm font-medium uppercase tracking-[0.22em] text-cyan-200/45">
                       or
                     </span>
 
@@ -259,7 +306,7 @@ export default function App() {
                       href="https://wa.me/971568441057?text=Hi%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20connect"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-3 rounded-2xl border border-green-400/30 bg-green-500/10 px-6 py-3 font-semibold text-green-300 shadow-[0_0_25px_rgba(34,197,94,0.18)] transition hover:scale-[1.03] hover:bg-green-500/20 hover:shadow-[0_0_38px_rgba(34,197,94,0.28)]"
+                      className="inline-flex items-center justify-center gap-3 rounded-2xl border border-green-400/30 bg-green-500/10 px-6 py-3 font-semibold text-green-300 shadow-[0_0_25px_rgba(34,197,94,0.18)] transition hover:scale-[1.03] hover:bg-green-500/20 hover:shadow-[0_0_38px_rgba(34,197,94,0.28)]"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -285,12 +332,16 @@ export default function App() {
                     <div className="mt-6 space-y-4 text-sm text-cyan-100/80">
                       <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
                         <p className="text-cyan-300">Services</p>
-                        <p className="mt-1">VR Simulations • Interactive Experiences • Game Development</p>
+                        <p className="mt-1">
+                          VR Simulations • Interactive Experiences • Game Development
+                        </p>
                       </div>
 
                       <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
                         <p className="text-cyan-300">Preferred Contact</p>
-                        <p className="mt-1">Email for detailed inquiries, WhatsApp for quick contact</p>
+                        <p className="mt-1">
+                          Email for detailed inquiries, WhatsApp for quick contact
+                        </p>
                       </div>
 
                       <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
@@ -314,15 +365,6 @@ function VRBackground() {
     <div className="pointer-events-none absolute inset-0 overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(34,211,238,0.16),transparent_28%),radial-gradient(circle_at_80%_20%,rgba(59,130,246,0.14),transparent_24%),linear-gradient(to_bottom,#08101f,#0b1020,#050816)]" />
 
-      {/* <motion.img
-        src="/controller.png"
-        alt="controller"
-        className="absolute right-[10%] top-[22%] h-56 w-56 drop-shadow-[0_0_40px_rgba(34,211,238,0.2)]"
-        animate={{ y: [0, -20, 0] }}
-        transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
-      /> */}
-      
-
       <div className="absolute inset-0 opacity-20 [background-image:linear-gradient(rgba(34,211,238,0.10)_1px,transparent_1px),linear-gradient(90deg,rgba(34,211,238,0.10)_1px,transparent_1px)] [background-size:90px_90px] [mask-image:radial-gradient(circle_at_center,black,transparent_85%)]" />
 
       <div className="absolute bottom-0 left-0 right-0 h-64 bg-[linear-gradient(to_top,rgba(34,211,238,0.07),transparent)]" />
@@ -340,7 +382,7 @@ function Hero3DCard() {
       transition={{ duration: 0.9, delay: 0.15 }}
       className="flex justify-center"
     >
-      <div className="relative h-[360px] w-[360px]">
+      <div className="relative h-[240px] w-[240px] sm:h-[300px] sm:w-[300px] md:h-[360px] md:w-[360px]">
         <div className="absolute inset-0 rounded-full bg-cyan-400/20 blur-3xl" />
 
         <motion.div
@@ -358,7 +400,7 @@ function Hero3DCard() {
         <motion.img
           src={`${base}controller.png`}
           alt="Controller"
-          className="absolute right-[-200px]  w-50 -translate-y-1/2 drop-shadow-[0_0_30px_rgba(34,211,238,0.35)]"
+          className="absolute right-[-60px] top-1/2 w-16 -translate-y-1/2 drop-shadow-[0_0_30px_rgba(34,211,238,0.35)] sm:right-[-100px] sm:w-24 md:right-[-160px] md:w-32"
           animate={{ y: [0, -35, 0] }}
           transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
         />
