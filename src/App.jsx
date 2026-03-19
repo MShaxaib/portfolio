@@ -565,6 +565,11 @@ function PortfolioMiniGame({ sceneRef }) {
       ? window.matchMedia("(pointer: coarse)").matches
       : false,
   );
+  const [minigameEnabled, setMinigameEnabled] = useState(() =>
+    typeof window !== "undefined"
+      ? !window.matchMedia("(max-width: 767px)").matches
+      : true,
+  );
   const [stepPlatforms, setStepPlatforms] = useState([]);
   const [playerState, setPlayerState] = useState({
     facing: 1,
@@ -621,6 +626,19 @@ function PortfolioMiniGame({ sceneRef }) {
   }, [sceneRef]);
 
   useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const syncMinigameEnabled = (event) => setMinigameEnabled(!event.matches);
+
+    mediaQuery.addEventListener("change", syncMinigameEnabled);
+
+    return () => mediaQuery.removeEventListener("change", syncMinigameEnabled);
+  }, []);
+
+  useEffect(() => {
+    if (!minigameEnabled) {
+      return undefined;
+    }
+
     let frameId = 0;
 
     const followTooltip = () => {
@@ -640,9 +658,13 @@ function PortfolioMiniGame({ sceneRef }) {
     frameId = window.requestAnimationFrame(followTooltip);
 
     return () => window.cancelAnimationFrame(frameId);
-  }, []);
+  }, [minigameEnabled]);
 
   useEffect(() => {
+    if (!minigameEnabled) {
+      return undefined;
+    }
+
     const handleKeyDown = (event) => {
       const isMovementKey = [
         "ArrowLeft",
@@ -705,9 +727,13 @@ function PortfolioMiniGame({ sceneRef }) {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
-  }, []);
+  }, [minigameEnabled]);
 
   useEffect(() => {
+    if (!minigameEnabled) {
+      return undefined;
+    }
+
     const giveUserScrollPriority = () => {
       if (autoScrollLockRef.current) {
         return;
@@ -737,9 +763,15 @@ function PortfolioMiniGame({ sceneRef }) {
       window.removeEventListener("touchmove", handleTouchMove);
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [minigameEnabled]);
 
   useEffect(() => {
+    if (!minigameEnabled) {
+      groundedPlatformRef.current = null;
+      playerRef.current.initialized = false;
+      return undefined;
+    }
+
     if (!sceneRef.current) {
       return undefined;
     }
@@ -824,9 +856,13 @@ function PortfolioMiniGame({ sceneRef }) {
       resizeObserver.disconnect();
       window.removeEventListener("resize", measurePlatforms);
     };
-  }, [sceneRef]);
+  }, [sceneRef, minigameEnabled]);
 
   useEffect(() => {
+    if (!minigameEnabled) {
+      return undefined;
+    }
+
     let frameId = 0;
     let previousTime = performance.now();
 
@@ -1026,7 +1062,11 @@ function PortfolioMiniGame({ sceneRef }) {
     frameId = window.requestAnimationFrame(tick);
 
     return () => window.cancelAnimationFrame(frameId);
-  }, [sceneRef]);
+  }, [sceneRef, minigameEnabled]);
+
+  if (!minigameEnabled) {
+    return null;
+  }
 
   const setTouchDirection = (direction, active) => {
     keysRef.current[direction] = active;
