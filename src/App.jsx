@@ -1,8 +1,33 @@
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
+const SECTION_LEDGE_LAYOUTS = {
+  about: [
+    { key: "entry", left: 28, y: 200, width: 220, side: "left" },
+    // { key: "mid", right: 120, y: 96, width: 170, side: "mid" },
+    // { key: "lower", right: 210, y: 170, width: 150, side: "mid" },
+  ],
+  "project-summary": [
+    { key: "entry", right: 160, y: 400, width: 220, side: "left" },
+    { key: "mid", right: 28, y: 690, width: 110, side: "right" },
+    // { key: "lower", left: 210, y: 170, width: 150, side: "mid" },
+  ],
+  projects: [
+    { key: "entry", right: 28, y: 450, width: 220, side: "right" },
+    { key: "mid", right: 260, y: 350, width: 120, side: "mid" },
+    // { key: "lower", right: 210, y: 170, width: 150, side: "mid" },
+  ],
+  contact: [
+    { key: "entry", left: 28, y: 300, width: 220, side: "left" },
+    // { key: "mid", left: 120, y: 96, width: 170, side: "mid" },
+    // { key: "lower", left: 210, y: 170, width: 150, side: "mid" },
+  ],
+};
 
 export default function App() {
   const base = import.meta.env.BASE_URL;
+  const pageRef = useRef(null);
+  const MotionDiv = motion.div;
 
   const projects = [
     {
@@ -58,8 +83,12 @@ export default function App() {
   const nextSlide = () => setActiveProject((s) => (s + 1) % projects.length);
 
   return (
-    <div className="relative isolate min-h-screen overflow-hidden bg-[#0b1020] text-white">
+    <div
+      ref={pageRef}
+      className="relative isolate min-h-screen overflow-hidden bg-[#0b1020] text-white"
+    >
       <VRBackground />
+      <PortfolioMiniGame sceneRef={pageRef} />
 
       <div className="relative z-10">
         <header className="border-b border-white/10 bg-black/10 backdrop-blur-md">
@@ -69,17 +98,30 @@ export default function App() {
             </h1>
 
             <div className="flex items-center gap-3 text-xs text-gray-300 sm:gap-4 sm:text-sm md:gap-7 md:text-[1.15rem]">
-              <a href="#about" className="transition hover:text-cyan-300">
+              <a
+                href="#about"
+                data-platform="true"
+                className="transition hover:text-cyan-300"
+              >
                 About
               </a>
-              <a href="#projects" className="transition hover:text-cyan-300">
+              <a
+                href="#projects"
+                data-platform="true"
+                className="transition hover:text-cyan-300"
+              >
                 Projects
               </a>
-              <a href="#contact" className="transition hover:text-cyan-300">
+              <a
+                href="#contact"
+                data-platform="true"
+                className="transition hover:text-cyan-300"
+              >
                 Contact
               </a>
               <a
                 href={`${base}CV.pdf`}
+                data-platform="true"
                 download="M_Shazaib_CV.pdf"
                 type="application/pdf"
                 className="rounded-lg border border-cyan-300/50 bg-cyan-900/30 px-3 py-2 text-[0.8rem] font-semibold text-cyan-100 transition hover:bg-cyan-500/30 hover:text-white"
@@ -93,7 +135,8 @@ export default function App() {
         <main>
           <section className="mx-auto flex min-h-[70vh] max-w-6xl items-center px-4 py-14 sm:px-6 sm:py-16 md:py-20">
             <div className="grid w-full items-center gap-10 md:grid-cols-2 md:gap-12">
-              <motion.div
+              <MotionDiv
+                data-platform="true"
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
@@ -115,18 +158,20 @@ export default function App() {
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                   <a
                     href="#projects"
+                    data-platform="true"
                     className="rounded-2xl bg-cyan-400 px-6 py-3 text-center font-semibold text-black shadow-[0_0_35px_rgba(34,211,238,0.35),0_0_16px_rgba(34,211,238,0.25)] transition hover:scale-105 hover:shadow-[0_0_45px_rgba(34,211,238,0.45),0_0_20px_rgba(34,211,238,0.38)]"
                   >
                     View Projects
                   </a>
                   <a
                     href="#contact"
+                    data-platform="true"
                     className="rounded-2xl border border-cyan-300/35 bg-cyan-700/20 px-6 py-3 text-center font-semibold text-cyan-100 transition hover:bg-cyan-400/30 hover:shadow-[0_0_30px_rgba(34,211,238,0.38)]"
                   >
                     Contact Me
                   </a>
                 </div>
-              </motion.div>
+              </MotionDiv>
 
               <div className="order-1 flex justify-center md:order-2">
                 <Hero3DCard />
@@ -134,8 +179,15 @@ export default function App() {
             </div>
           </section>
 
-          <section id="about" className="mx-auto max-w-6xl px-4 py-12 sm:px-6 md:py-16">
-            <div className="rounded-3xl border border-cyan-300/50 bg-cyan-900/20 p-6 shadow-[0_0_35px_rgba(34,211,238,0.35)] backdrop-blur-sm md:p-8">
+          <section
+            id="about"
+            data-step-section="true"
+            className="mx-auto max-w-6xl px-4 py-12 sm:px-6 md:py-16"
+          >
+            <div
+              data-platform="true"
+              className="rounded-3xl border border-cyan-300/50 bg-cyan-900/20 p-6 shadow-[0_0_35px_rgba(34,211,238,0.35)] backdrop-blur-sm md:p-8"
+            >
               <h3 className="text-2xl font-bold text-cyan-100">About Me</h3>
               <p className="mt-4 text-left text-sm leading-7 text-cyan-100/85 sm:text-base">
                 I create high-fidelity, simulation-driven experiences across VR,
@@ -148,9 +200,13 @@ export default function App() {
 
           <section
             id="project-summary"
+            data-step-section="true"
             className="mx-auto max-w-6xl px-4 py-12 sm:px-6 md:py-16"
           >
-            <div className="rounded-3xl border border-cyan-300/50 bg-cyan-900/20 p-6 shadow-[0_0_35px_rgba(34,211,238,0.35)] backdrop-blur-sm md:p-8">
+            <div
+              data-platform="true"
+              className="rounded-3xl border border-cyan-300/50 bg-cyan-900/20 p-6 shadow-[0_0_35px_rgba(34,211,238,0.35)] backdrop-blur-sm md:p-8"
+            >
               <h3 className="text-2xl font-bold text-cyan-100 md:text-3xl">
                 Project Highlights Video
               </h3>
@@ -173,7 +229,11 @@ export default function App() {
             </div>
           </section>
 
-          <section id="projects" className="mx-auto max-w-6xl px-4 py-12 sm:px-6 md:py-16">
+          <section
+            id="projects"
+            data-step-section="true"
+            className="mx-auto max-w-6xl px-4 py-12 sm:px-6 md:py-16"
+          >
             <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between md:mb-16">
               <h3 className="text-2xl font-bold text-cyan-100 md:text-3xl">
                 Featured Projects
@@ -182,12 +242,14 @@ export default function App() {
               <div className="flex items-center gap-2">
                 <button
                   onClick={prevSlide}
+                  data-platform="true"
                   className="rounded-lg border border-cyan-300/50 bg-cyan-900/30 px-4 py-2 text-sm text-cyan-100 transition hover:bg-cyan-800/40"
                 >
                   Prev
                 </button>
                 <button
                   onClick={nextSlide}
+                  data-platform="true"
                   className="rounded-lg border border-cyan-300/50 bg-cyan-900/30 px-4 py-2 text-sm text-cyan-100 transition hover:bg-cyan-800/40"
                 >
                   Next
@@ -200,6 +262,7 @@ export default function App() {
               {projects.map((project) => (
                 <div
                   key={project.title}
+                  data-platform="true"
                   className="rounded-3xl border border-cyan-300/40 bg-cyan-900/30 p-4 text-cyan-100 shadow-[0_0_30px_rgba(34,211,238,0.2)]"
                 >
                   <img
@@ -241,8 +304,9 @@ export default function App() {
                   const isActive = normalized === 0;
 
                   return (
-                    <motion.div
+                    <MotionDiv
                       key={project.title}
+                      data-platform="true"
                       className="absolute left-1/2 top-8 h-[400px] w-[360px] -translate-x-1/2 overflow-hidden rounded-3xl border border-cyan-300/40 bg-cyan-900/30 p-4 text-cyan-100 shadow-[0_0_40px_rgba(34,211,238,0.35)]"
                       style={{
                         transform,
@@ -262,15 +326,22 @@ export default function App() {
                       <p className="mt-2 text-sm leading-6 text-gray-300">
                         {project.description}
                       </p>
-                    </motion.div>
+                    </MotionDiv>
                   );
                 })}
               </div>
             </div>
           </section>
 
-          <section id="contact" className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20">
-            <div className="relative overflow-hidden rounded-[2rem] border border-cyan-300/30 bg-cyan-950/20 p-6 shadow-[0_0_40px_rgba(34,211,238,0.18)] backdrop-blur-xl md:p-12">
+          <section
+            id="contact"
+            data-step-section="true"
+            className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20"
+          >
+            <div
+              data-platform="true"
+              className="relative overflow-hidden rounded-[2rem] border border-cyan-300/30 bg-cyan-950/20 p-6 shadow-[0_0_40px_rgba(34,211,238,0.18)] backdrop-blur-xl md:p-12"
+            >
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(34,211,238,0.14),transparent_28%),radial-gradient(circle_at_bottom_left,rgba(168,85,247,0.12),transparent_30%)]" />
               <div className="absolute -right-16 top-8 h-40 w-40 rounded-full bg-cyan-400/10 blur-3xl" />
               <div className="absolute -left-12 bottom-0 h-32 w-32 rounded-full bg-fuchsia-500/10 blur-3xl" />
@@ -294,6 +365,7 @@ export default function App() {
                   <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">
                     <a
                       href="mailto:muhammad.shazaibb@gmail.com"
+                      data-platform="true"
                       className="inline-flex items-center justify-center gap-3 rounded-2xl bg-cyan-400 px-6 py-3 font-semibold text-slate-950 shadow-[0_0_30px_rgba(34,211,238,0.28)] transition hover:scale-[1.03] hover:shadow-[0_0_42px_rgba(34,211,238,0.38)]"
                     >
                       <svg
@@ -312,6 +384,7 @@ export default function App() {
 
                     <a
                       href="https://wa.me/971568441057?text=Hi%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20connect"
+                      data-platform="true"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center justify-center gap-3 rounded-2xl border border-green-400/30 bg-green-500/10 px-6 py-3 font-semibold text-green-300 shadow-[0_0_25px_rgba(34,197,94,0.18)] transition hover:scale-[1.03] hover:bg-green-500/20 hover:shadow-[0_0_38px_rgba(34,197,94,0.28)]"
@@ -329,7 +402,10 @@ export default function App() {
                 </div>
 
                 <div className="relative">
-                  <div className="rounded-[1.75rem] border border-white/10 bg-white/5 p-6 shadow-[inset_0_0_30px_rgba(34,211,238,0.05)] backdrop-blur-sm">
+                  <div
+                    data-platform="true"
+                    className="rounded-[1.75rem] border border-white/10 bg-white/5 p-6 shadow-[inset_0_0_30px_rgba(34,211,238,0.05)] backdrop-blur-sm"
+                  >
                     <div className="flex items-center gap-3">
                       <div className="h-3 w-3 rounded-full bg-cyan-300 shadow-[0_0_14px_rgba(103,232,249,0.85)]" />
                       <p className="text-sm uppercase tracking-[0.22em] text-cyan-200/70">
@@ -370,13 +446,17 @@ export default function App() {
 
 function VRBackground() {
   const base = import.meta.env.BASE_URL;
-  const [isMobile, setIsMobile] = useState(false);
+  const MotionImg = motion.img;
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== "undefined"
+      ? window.matchMedia("(max-width: 767px)").matches
+      : false,
+  );
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 767px)");
     const syncIsMobile = (event) => setIsMobile(event.matches);
 
-    setIsMobile(mediaQuery.matches);
     mediaQuery.addEventListener("change", syncIsMobile);
 
     return () => mediaQuery.removeEventListener("change", syncIsMobile);
@@ -403,7 +483,7 @@ function VRBackground() {
       <div className="absolute inset-0 opacity-20 [background-image:linear-gradient(rgba(34,211,238,0.10)_1px,transparent_1px),linear-gradient(90deg,rgba(34,211,238,0.10)_1px,transparent_1px)] [background-size:90px_90px] [mask-image:radial-gradient(circle_at_center,black,transparent_85%)]" />
 
       {dpadConfigs.map((cfg, idx) => (
-        <motion.img
+        <MotionImg
           key={`dpad-${idx}`}
           src={`${base}Dpad.png`}
           alt=""
@@ -445,11 +525,649 @@ function VRBackground() {
   );
 }
 
-function Hero3DCard() {
-  const base = import.meta.env.BASE_URL;
+function PortfolioMiniGame({ sceneRef }) {
+  const PLAYER_WIDTH = 34;
+  const PLAYER_HEIGHT = 48;
+  const STEP_HEIGHT = 16;
+  const MOVE_SPEED = 380;
+  const ACCELERATION = 2600;
+  const AIR_CONTROL = 1800;
+  const JUMP_VELOCITY = 860;
+  const GRAVITY = 1000;
+  const playerElementRef = useRef(null);
+  const tooltipElementRef = useRef(null);
+  const tooltipFollowYRef = useRef(
+    typeof window !== "undefined" ? window.scrollY + 80 : 80,
+  );
+  const keysRef = useRef({
+    left: false,
+    right: false,
+    jump: false,
+  });
+  const jumpQueuedRef = useRef(false);
+  const platformElementsRef = useRef([]);
+  const groundedPlatformRef = useRef(null);
+  const sceneHeightRef = useRef(0);
+  const sceneWidthRef = useRef(0);
+  const userScrollPriorityUntilRef = useRef(0);
+  const autoScrollLockRef = useRef(false);
+  const playerRef = useRef({
+    x: 96,
+    y: 120,
+    vx: 0,
+    vy: 0,
+    facing: 1,
+    onGround: false,
+    initialized: false,
+  });
+  const [touchMode, setTouchMode] = useState(() =>
+    typeof window !== "undefined"
+      ? window.matchMedia("(pointer: coarse)").matches
+      : false,
+  );
+  const [stepPlatforms, setStepPlatforms] = useState([]);
+  const [playerState, setPlayerState] = useState({
+    facing: 1,
+    onGround: false,
+    ready: false,
+  });
+
+  const buildSectionStepPlatforms = (scene) => {
+    const sceneRect = scene.getBoundingClientRect();
+
+    return Array.from(scene.querySelectorAll("[data-step-section='true']")).flatMap(
+      (section, index) => {
+        const rect = section.getBoundingClientRect();
+        const sectionTop = rect.top - sceneRect.top;
+        const sectionId = section.id;
+        const fallbackSide = index % 2 === 1 ? "right" : "left";
+        const fallbackLayout = [
+          { key: "entry", [fallbackSide]: 28, y: 22, width: 220, side: fallbackSide },
+          { key: "mid", [fallbackSide]: 120, y: 96, width: 170, side: "mid" },
+          { key: "lower", [fallbackSide]: 210, y: 170, width: 150, side: "mid" },
+        ];
+        const layout = SECTION_LEDGE_LAYOUTS[sectionId] ?? fallbackLayout;
+
+        return layout.map((ledge) => {
+          const width = ledge.width;
+          const x =
+            typeof ledge.left === "number"
+              ? ledge.left
+              : scene.clientWidth - width - (ledge.right ?? 0);
+
+          return {
+            key: `section-step-${sectionId}-${ledge.key}`,
+            element: null,
+            x,
+            y: sectionTop + ledge.y,
+            width,
+            height: ledge.height ?? STEP_HEIGHT,
+            isSpawn: false,
+            side: ledge.side ?? "mid",
+            variant: ledge.key,
+          };
+        });
+      },
+    );
+  };
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(pointer: coarse)");
+    const syncTouchMode = (event) => setTouchMode(event.matches);
+
+    mediaQuery.addEventListener("change", syncTouchMode);
+
+    return () => mediaQuery.removeEventListener("change", syncTouchMode);
+  }, [sceneRef]);
+
+  useEffect(() => {
+    let frameId = 0;
+
+    const followTooltip = () => {
+      const tooltipElement = tooltipElementRef.current;
+      if (tooltipElement) {
+        const targetY = window.scrollY + 80;
+        const currentY = tooltipFollowYRef.current;
+        const nextY = currentY + (targetY - currentY) * 0.16;
+
+        tooltipFollowYRef.current = Math.abs(targetY - nextY) < 0.5 ? targetY : nextY;
+        tooltipElement.style.transform = `translate3d(0, ${tooltipFollowYRef.current}px, 0)`;
+      }
+
+      frameId = window.requestAnimationFrame(followTooltip);
+    };
+
+    frameId = window.requestAnimationFrame(followTooltip);
+
+    return () => window.cancelAnimationFrame(frameId);
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      const isMovementKey = [
+        "ArrowLeft",
+        "ArrowRight",
+        "ArrowUp",
+        "KeyA",
+        "KeyD",
+        "KeyW",
+        "Space",
+      ].includes(event.code);
+
+      if (isMovementKey) {
+        event.preventDefault();
+      }
+
+      if (event.repeat) {
+        return;
+      }
+
+      if (["ArrowLeft", "KeyA"].includes(event.code)) {
+        keysRef.current.left = true;
+      }
+
+      if (["ArrowRight", "KeyD"].includes(event.code)) {
+        keysRef.current.right = true;
+      }
+
+      if (["ArrowUp", "KeyW", "Space"].includes(event.code)) {
+        keysRef.current.jump = true;
+        jumpQueuedRef.current = true;
+      }
+    };
+
+    const handleKeyUp = (event) => {
+      if (
+        ["ArrowLeft", "ArrowRight", "ArrowUp", "KeyA", "KeyD", "KeyW", "Space"].includes(
+          event.code,
+        )
+      ) {
+        event.preventDefault();
+      }
+
+      if (["ArrowLeft", "KeyA"].includes(event.code)) {
+        keysRef.current.left = false;
+      }
+
+      if (["ArrowRight", "KeyD"].includes(event.code)) {
+        keysRef.current.right = false;
+      }
+
+      if (["ArrowUp", "KeyW", "Space"].includes(event.code)) {
+        keysRef.current.jump = false;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown, { passive: false });
+    window.addEventListener("keyup", handleKeyUp);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
+    };
+  }, []);
+
+  useEffect(() => {
+    const giveUserScrollPriority = () => {
+      if (autoScrollLockRef.current) {
+        return;
+      }
+
+      userScrollPriorityUntilRef.current = performance.now() + 1400;
+    };
+
+    const handleWheel = () => {
+      giveUserScrollPriority();
+    };
+
+    const handleTouchMove = () => {
+      giveUserScrollPriority();
+    };
+
+    const handleScroll = () => {
+      giveUserScrollPriority();
+    };
+
+    window.addEventListener("wheel", handleWheel, { passive: true });
+    window.addEventListener("touchmove", handleTouchMove, { passive: true });
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("wheel", handleWheel);
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!sceneRef.current) {
+      return undefined;
+    }
+
+    const getPlatformRects = () => {
+      const scene = sceneRef.current;
+      if (!scene) {
+        return [];
+      }
+
+      const basePlatforms = platformElementsRef.current.map((element) => {
+        const sceneRect = scene.getBoundingClientRect();
+        const rect = element.getBoundingClientRect();
+        const isFixed = window.getComputedStyle(element).position === "fixed";
+
+        return {
+          key: element,
+          element,
+          x: isFixed ? rect.left : rect.left - sceneRect.left,
+          y: isFixed ? rect.top + window.scrollY : rect.top - sceneRect.top,
+          width: rect.width,
+          height: rect.height,
+          isSpawn: element.dataset.spawnPlatform === "true",
+        };
+      });
+
+      const sectionStepPlatforms = buildSectionStepPlatforms(scene);
+
+      return [...basePlatforms, ...sectionStepPlatforms];
+    };
+
+    const measurePlatforms = () => {
+      const scene = sceneRef.current;
+      if (!scene) {
+        return;
+      }
+
+      platformElementsRef.current = Array.from(
+        scene.querySelectorAll("[data-platform='true']"),
+      );
+
+      sceneHeightRef.current = scene.scrollHeight;
+      sceneWidthRef.current = scene.clientWidth;
+      setStepPlatforms(buildSectionStepPlatforms(scene));
+
+      const platformRects = getPlatformRects();
+
+      if (!playerRef.current.initialized && platformRects.length > 0) {
+        const spawnPlatform =
+          platformRects.find((platform) => platform.isSpawn) ?? platformRects[0];
+        playerRef.current = {
+          ...playerRef.current,
+          x: Math.max(24, spawnPlatform.x + 56),
+          y: Math.max(0, spawnPlatform.y - PLAYER_HEIGHT),
+          initialized: true,
+          onGround: true,
+        };
+        groundedPlatformRef.current = spawnPlatform.key;
+
+        if (playerElementRef.current) {
+          playerElementRef.current.style.transform = `translate3d(${playerRef.current.x}px, ${playerRef.current.y}px, 0) scaleX(${playerRef.current.facing})`;
+        }
+
+        setPlayerState({
+          facing: playerRef.current.facing,
+          onGround: true,
+          ready: true,
+        });
+      }
+    };
+
+    measurePlatforms();
+
+    const resizeObserver = new ResizeObserver(measurePlatforms);
+    resizeObserver.observe(sceneRef.current);
+
+    platformElementsRef.current.forEach((element) => resizeObserver.observe(element));
+
+    window.addEventListener("resize", measurePlatforms);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener("resize", measurePlatforms);
+    };
+  }, [sceneRef]);
+
+  useEffect(() => {
+    let frameId = 0;
+    let previousTime = performance.now();
+
+    const tick = (currentTime) => {
+      const player = playerRef.current;
+      const scene = sceneRef.current;
+
+      if (!scene) {
+        frameId = window.requestAnimationFrame(tick);
+        return;
+      }
+
+      const basePlatforms = platformElementsRef.current.map((element) => {
+        const sceneRect = scene.getBoundingClientRect();
+        const rect = element.getBoundingClientRect();
+        const isFixed = window.getComputedStyle(element).position === "fixed";
+
+        return {
+          key: element,
+          element,
+          x: isFixed ? rect.left : rect.left - sceneRect.left,
+          y: isFixed ? rect.top + window.scrollY : rect.top - sceneRect.top,
+          width: rect.width,
+          height: rect.height,
+        };
+      });
+      const sectionStepPlatforms = buildSectionStepPlatforms(scene);
+      const platforms = [...basePlatforms, ...sectionStepPlatforms];
+
+      if (!player.initialized) {
+        frameId = window.requestAnimationFrame(tick);
+        return;
+      }
+
+      const deltaTime = Math.min((currentTime - previousTime) / 1000, 0.033);
+      previousTime = currentTime;
+
+      const direction =
+        (keysRef.current.right ? 1 : 0) - (keysRef.current.left ? 1 : 0);
+      const targetVelocity = direction * MOVE_SPEED;
+      const acceleration = player.onGround ? ACCELERATION : AIR_CONTROL;
+      const velocityDelta = targetVelocity - player.vx;
+      const maxVelocityChange = acceleration * deltaTime;
+
+      if (Math.abs(velocityDelta) <= maxVelocityChange) {
+        player.vx = targetVelocity;
+      } else {
+        player.vx += Math.sign(velocityDelta) * maxVelocityChange;
+      }
+
+      if (direction !== 0) {
+        player.facing = direction;
+      }
+
+      const currentGroundPlatform = groundedPlatformRef.current
+        ? platforms.find(
+            (platform) => platform.key === groundedPlatformRef.current,
+          )
+        : null;
+
+      if (player.onGround && currentGroundPlatform && !jumpQueuedRef.current) {
+        const stillOverPlatform =
+          player.x + PLAYER_WIDTH > currentGroundPlatform.x + 18 &&
+          player.x < currentGroundPlatform.x + currentGroundPlatform.width - 18;
+
+        if (stillOverPlatform) {
+          player.y = currentGroundPlatform.y - PLAYER_HEIGHT;
+          if (player.vy > 0) {
+            player.vy = 0;
+          }
+        } else {
+          groundedPlatformRef.current = null;
+          player.onGround = false;
+        }
+      }
+
+      if (jumpQueuedRef.current && player.onGround) {
+        player.vy = -JUMP_VELOCITY;
+        player.onGround = false;
+        groundedPlatformRef.current = null;
+      }
+      jumpQueuedRef.current = false;
+
+      player.vy += GRAVITY * deltaTime;
+
+      let nextX = player.x + player.vx * deltaTime;
+      let nextY = player.y + player.vy * deltaTime;
+      const previousBottom = player.y + PLAYER_HEIGHT;
+      const nextBottom = nextY + PLAYER_HEIGHT;
+      const sceneWidth = sceneWidthRef.current || window.innerWidth;
+      const sceneHeight = sceneHeightRef.current || window.innerHeight;
+      const floorY = sceneHeight - PLAYER_HEIGHT - 24;
+
+      nextX = Math.max(10, Math.min(sceneWidth - PLAYER_WIDTH - 10, nextX));
+
+      let landedPlatform = null;
+
+      if (player.vy >= 0) {
+        platforms.forEach((platform) => {
+          const horizontalOverlap =
+            nextX + PLAYER_WIDTH > platform.x + 18 &&
+            nextX < platform.x + platform.width - 18;
+          const wasAbovePlatform = previousBottom <= platform.y + 18;
+          const crossesPlatform = nextBottom >= platform.y;
+
+          if (horizontalOverlap && wasAbovePlatform && crossesPlatform) {
+            if (!landedPlatform || platform.y < landedPlatform.y) {
+              landedPlatform = platform;
+            }
+          }
+        });
+      }
+
+      if (landedPlatform) {
+        nextY = landedPlatform.y - PLAYER_HEIGHT;
+        player.vy = 0;
+        player.onGround = true;
+        groundedPlatformRef.current = landedPlatform.key;
+      } else if (nextY >= floorY) {
+        nextY = floorY;
+        player.vy = 0;
+        player.onGround = true;
+        groundedPlatformRef.current = null;
+      } else {
+        player.onGround = false;
+        groundedPlatformRef.current = null;
+      }
+
+      player.x = nextX;
+      player.y = nextY;
+
+      if (playerElementRef.current) {
+        playerElementRef.current.style.transform = `translate3d(${player.x}px, ${player.y}px, 0) scaleX(${player.facing})`;
+      }
+
+      const viewportTop = window.scrollY;
+      const viewportBottom = viewportTop + window.innerHeight;
+      const playerBottom = player.y + PLAYER_HEIGHT;
+      const playerTop = player.y;
+      const canAutoScroll =
+        performance.now() >= userScrollPriorityUntilRef.current;
+
+      if (canAutoScroll && player.vy > 0 && playerBottom > viewportBottom - 80) {
+        const maxScrollTop =
+          document.documentElement.scrollHeight - window.innerHeight;
+        const targetScrollTop = Math.min(
+          maxScrollTop,
+          playerBottom - window.innerHeight + 120,
+        );
+
+        if (targetScrollTop > viewportTop) {
+          autoScrollLockRef.current = true;
+          window.scrollTo({
+            top: Math.min(targetScrollTop, viewportTop + 18),
+            behavior: "auto",
+          });
+          requestAnimationFrame(() => {
+            autoScrollLockRef.current = false;
+          });
+        }
+      }
+
+      if (canAutoScroll && player.vy < 0 && playerTop < viewportTop + 90) {
+        const targetScrollTop = Math.max(0, playerTop - 120);
+
+        if (targetScrollTop < viewportTop) {
+          autoScrollLockRef.current = true;
+          window.scrollTo({
+            top: Math.max(targetScrollTop, viewportTop - 18),
+            behavior: "auto",
+          });
+          requestAnimationFrame(() => {
+            autoScrollLockRef.current = false;
+          });
+        }
+      }
+
+      setPlayerState((previousState) => {
+        if (
+          previousState.ready &&
+          previousState.facing === player.facing &&
+          previousState.onGround === player.onGround
+        ) {
+          return previousState;
+        }
+
+        return {
+          facing: player.facing,
+          onGround: player.onGround,
+          ready: true,
+        };
+      });
+
+      frameId = window.requestAnimationFrame(tick);
+    };
+
+    frameId = window.requestAnimationFrame(tick);
+
+    return () => window.cancelAnimationFrame(frameId);
+  }, [sceneRef]);
+
+  const setTouchDirection = (direction, active) => {
+    keysRef.current[direction] = active;
+  };
+
+  const triggerTouchJump = () => {
+    jumpQueuedRef.current = true;
+  };
 
   return (
-    <motion.div
+    <div className="pointer-events-none absolute inset-0 z-20">
+      {stepPlatforms.map((step) => (
+        <div
+          key={step.key}
+          className="absolute"
+          style={{
+            left: `${step.x}px`,
+            top: `${step.y}px`,
+            width: `${step.width}px`,
+            height: `${step.height}px`,
+          }}
+        >
+          <div
+            className={`absolute inset-0 rounded-full border ${
+              step.side === "right"
+                ? "border-fuchsia-300/80 bg-fuchsia-400/20 shadow-[0_0_18px_rgba(217,70,239,0.65),0_0_34px_rgba(217,70,239,0.3)]"
+                : step.side === "left"
+                  ? "border-cyan-300/80 bg-cyan-400/20 shadow-[0_0_18px_rgba(34,211,238,0.65),0_0_34px_rgba(34,211,238,0.3)]"
+                  : "border-emerald-300/80 bg-emerald-400/20 shadow-[0_0_18px_rgba(52,211,153,0.6),0_0_30px_rgba(52,211,153,0.25)]"
+            }`}
+          />
+          <div
+            className={`absolute top-1/2 h-[2px] -translate-y-1/2 ${
+              step.side === "right"
+                ? "left-[-32px] w-12 bg-gradient-to-l from-fuchsia-300 to-transparent"
+                : step.side === "left"
+                  ? "right-[-32px] w-12 bg-gradient-to-r from-cyan-300 to-transparent"
+                  : "left-1/2 w-16 -translate-x-1/2 bg-gradient-to-r from-transparent via-emerald-300 to-transparent"
+            }`}
+          />
+        </div>
+      ))}
+
+      {playerState.ready ? (
+        <div
+          ref={playerElementRef}
+          className="absolute"
+          style={{
+            left: 0,
+            top: 0,
+            width: `${PLAYER_WIDTH}px`,
+            height: `${PLAYER_HEIGHT}px`,
+            transform: `translate3d(0, 0, 0) scaleX(${playerState.facing})`,
+            transformOrigin: "center center",
+            willChange: "transform",
+          }}
+        >
+          <div className="absolute inset-x-[7px] top-0 h-5 rounded-full border border-cyan-200/70 bg-cyan-200 shadow-[0_0_16px_rgba(103,232,249,0.8)]" />
+          <div className="absolute inset-x-0 top-4 h-8 rounded-[16px] border border-cyan-300/55 bg-cyan-400/80 shadow-[0_0_18px_rgba(34,211,238,0.55)]" />
+          <div className="absolute left-[2px] top-[23px] h-2 w-3 rounded-full bg-[#08101f]" />
+          <div className="absolute right-[2px] top-[23px] h-2 w-3 rounded-full bg-[#08101f]" />
+          <div className="absolute left-[6px] top-[18px] h-4 w-2 rounded-full bg-cyan-100" />
+          <div className="absolute right-[6px] top-[18px] h-4 w-2 rounded-full bg-cyan-100" />
+          <div
+            className={`absolute bottom-0 left-[4px] h-4 w-2 rounded-full ${
+              playerState.onGround ? "bg-cyan-950" : "bg-cyan-100"
+            }`}
+          />
+          <div
+            className={`absolute bottom-0 right-[4px] h-4 w-2 rounded-full ${
+              playerState.onGround ? "bg-cyan-950" : "bg-cyan-100"
+            }`}
+          />
+        </div>
+      ) : null}
+
+      <div
+        ref={tooltipElementRef}
+        data-platform="true"
+        data-spawn-platform="true"
+        className="absolute right-4 top-0 max-w-[230px] rounded-2xl border border-cyan-300/30 bg-slate-950/70 px-4 py-3 text-xs text-cyan-100 shadow-[0_0_24px_rgba(34,211,238,0.18)] backdrop-blur-md"
+        style={{
+          transform: "translate3d(0, 80px, 0)",
+          willChange: "transform",
+        }}
+      >
+        <p className="font-semibold uppercase tracking-[0.24em] text-cyan-300/85">
+          Mini Game
+        </p>
+        <p className="mt-2 leading-5 text-cyan-100/75">
+          Use A/D or arrow keys to move. Press W, up arrow, or space to jump on
+          the section cards.
+        </p>
+      </div>
+
+      {touchMode ? (
+        <div className="fixed bottom-4 left-4 right-4 flex items-end justify-between">
+          <div className="pointer-events-auto flex gap-3">
+            <button
+              type="button"
+              data-platform="true"
+              className="rounded-2xl border border-cyan-300/40 bg-slate-950/75 px-5 py-4 text-xl text-cyan-100 shadow-[0_0_18px_rgba(34,211,238,0.18)] backdrop-blur"
+              onPointerDown={() => setTouchDirection("left", true)}
+              onPointerUp={() => setTouchDirection("left", false)}
+              onPointerLeave={() => setTouchDirection("left", false)}
+            >
+              ◀
+            </button>
+            <button
+              type="button"
+              data-platform="true"
+              className="rounded-2xl border border-cyan-300/40 bg-slate-950/75 px-5 py-4 text-xl text-cyan-100 shadow-[0_0_18px_rgba(34,211,238,0.18)] backdrop-blur"
+              onPointerDown={() => setTouchDirection("right", true)}
+              onPointerUp={() => setTouchDirection("right", false)}
+              onPointerLeave={() => setTouchDirection("right", false)}
+            >
+              ▶
+            </button>
+          </div>
+
+          <button
+            type="button"
+            data-platform="true"
+            className="pointer-events-auto rounded-2xl border border-cyan-300/40 bg-cyan-400/85 px-6 py-4 font-semibold text-slate-950 shadow-[0_0_24px_rgba(34,211,238,0.25)]"
+            onPointerDown={triggerTouchJump}
+          >
+            Jump
+          </button>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function Hero3DCard() {
+  const base = import.meta.env.BASE_URL;
+  const MotionDiv = motion.div;
+  const MotionImg = motion.img;
+
+  return (
+    <MotionDiv
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.9, delay: 0.15 }}
@@ -458,7 +1176,8 @@ function Hero3DCard() {
       <div className="relative h-[240px] w-[240px] sm:h-[300px] sm:w-[300px] md:h-[360px] md:w-[360px]">
         <div className="absolute inset-0 rounded-full bg-cyan-400/20 blur-3xl" />
 
-        <motion.div
+        <MotionDiv
+          data-platform="true"
           className="relative h-full w-full"
           animate={{ y: [0, -25, 0] }}
           transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
@@ -466,18 +1185,20 @@ function Hero3DCard() {
           <img
             src={`${base}vr-headset.png`}
             alt="VR Headset"
+            data-platform="true"
             className="h-full w-full object-contain drop-shadow-[0_0_40px_rgba(34,211,238,0.5)]"
           />
-        </motion.div>
+        </MotionDiv>
 
-        <motion.img
+        <MotionImg
           src={`${base}controller2.png`}
           alt="Controller"
+          data-platform="true"
           className="absolute right-[-60px] top-1/2 w-16 -translate-y-1/2 drop-shadow-[0_0_30px_rgba(34,211,238,0.35)] sm:right-[-100px] sm:w-24 md:right-[-160px] md:w-32"
           animate={{ y: [0, -35, 0] }}
           transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
         />
       </div>
-    </motion.div>
+    </MotionDiv>
   );
 }
