@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
 const SECTION_LEDGE_LAYOUTS = {
@@ -8,17 +8,17 @@ const SECTION_LEDGE_LAYOUTS = {
     // { key: "lower", right: 210, y: 170, width: 150, side: "mid" },
   ],
   "project-summary": [
-    { key: "entry", right: 160, y: 400, width: 220, side: "left" },
-    { key: "mid", right: 28, y: 690, width: 110, side: "right" },
+    // { key: "entry", right: 160, y: 400, width: 220, side: "left" },
+    { key: "mid", right: 150, y: 690, width: 110, side: "right" },
     // { key: "lower", left: 210, y: 170, width: 150, side: "mid" },
   ],
   projects: [
-    { key: "entry", right: 28, y: 450, width: 220, side: "right" },
+    { key: "entry", right: 28, y: 550, width: 220, side: "right" },
     { key: "mid", right: 260, y: 350, width: 120, side: "mid" },
     // { key: "lower", right: 210, y: 170, width: 150, side: "mid" },
   ],
   contact: [
-    { key: "entry", left: 28, y: 300, width: 220, side: "left" },
+    { key: "entry", left: 28, y: 200, width: 220, side: "left" },
     // { key: "mid", left: 120, y: 96, width: 170, side: "mid" },
     // { key: "lower", left: 210, y: 170, width: 150, side: "mid" },
   ],
@@ -28,6 +28,7 @@ export default function App() {
   const base = import.meta.env.BASE_URL;
   const pageRef = useRef(null);
   const MotionDiv = motion.div;
+  const { scrollY } = useScroll();
 
   const projects = [
     {
@@ -77,6 +78,9 @@ export default function App() {
   const [activeProject, setActiveProject] = useState(0);
 
   const horizontalBias = 180;
+  const heroCopyY = useTransform(scrollY, [0, 600], [0, -48]);
+  const heroVisualY = useTransform(scrollY, [0, 600], [0, 72]);
+  const heroOpacity = useTransform(scrollY, [0, 700], [1, 0.82]);
 
   const prevSlide = () =>
     setActiveProject((s) => (s - 1 + projects.length) % projects.length);
@@ -137,10 +141,11 @@ export default function App() {
             <div className="grid w-full items-center gap-10 md:grid-cols-2 md:gap-12">
               <MotionDiv
                 data-platform="true"
+                style={{ y: heroCopyY, opacity: heroOpacity }}
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
-                className="order-2 md:order-1"
+                className="order-2 rounded-[2rem] bg-slate-950/45 p-5 shadow-[0_0_30px_rgba(8,16,31,0.24)] backdrop-blur-xl md:order-1 md:rounded-none md:bg-transparent md:p-0 md:shadow-none md:backdrop-blur-0"
               >
                 <p className="mb-4 text-xs uppercase tracking-[0.28em] text-cyan-200 drop-shadow-[0_0_18px_rgba(34,211,238,0.42)] sm:text-sm md:text-base md:tracking-[0.36em]">
                   VR • Game Dev • Simulation
@@ -173,15 +178,17 @@ export default function App() {
                 </div>
               </MotionDiv>
 
-              <div className="order-1 flex justify-center md:order-2">
+              <MotionDiv
+                style={{ y: heroVisualY }}
+                className="order-1 flex justify-center md:order-2"
+              >
                 <Hero3DCard />
-              </div>
+              </MotionDiv>
             </div>
           </section>
 
-          <section
+          <RevealSection
             id="about"
-            data-step-section="true"
             className="mx-auto max-w-6xl px-4 py-12 sm:px-6 md:py-16"
           >
             <div
@@ -196,12 +203,12 @@ export default function App() {
                 experiences.
               </p>
             </div>
-          </section>
+          </RevealSection>
 
-          <section
+          <RevealSection
             id="project-summary"
-            data-step-section="true"
             className="mx-auto max-w-6xl px-4 py-12 sm:px-6 md:py-16"
+            delay={0.08}
           >
             <div
               data-platform="true"
@@ -227,12 +234,12 @@ export default function App() {
                 </div>
               </div>
             </div>
-          </section>
+          </RevealSection>
 
-          <section
+          <RevealSection
             id="projects"
-            data-step-section="true"
             className="mx-auto max-w-6xl px-4 py-12 sm:px-6 md:py-16"
+            delay={0.12}
           >
             <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between md:mb-16">
               <h3 className="text-2xl font-bold text-cyan-100 md:text-3xl">
@@ -331,12 +338,12 @@ export default function App() {
                 })}
               </div>
             </div>
-          </section>
+          </RevealSection>
 
-          <section
+          <RevealSection
             id="contact"
-            data-step-section="true"
             className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20"
+            delay={0.16}
           >
             <div
               data-platform="true"
@@ -437,21 +444,47 @@ export default function App() {
                 </div>
               </div>
             </div>
-          </section>
+          </RevealSection>
         </main>
       </div>
     </div>
   );
 }
 
+function RevealSection({ id, className, children, delay = 0 }) {
+  return (
+    <motion.section
+      id={id}
+      data-step-section="true"
+      className={className}
+      initial={{ opacity: 0, y: 56, scale: 0.98, filter: "blur(10px)" }}
+      whileInView={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+      viewport={{ once: true, amount: 0.22 }}
+      transition={{
+        duration: 0.75,
+        delay,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+    >
+      {children}
+    </motion.section>
+  );
+}
+
 function VRBackground() {
   const base = import.meta.env.BASE_URL;
   const MotionImg = motion.img;
+  const MotionDiv = motion.div;
+  const { scrollY } = useScroll();
   const [isMobile, setIsMobile] = useState(() =>
     typeof window !== "undefined"
       ? window.matchMedia("(max-width: 767px)").matches
       : false,
   );
+  const backgroundY = useTransform(scrollY, [0, 1600], [0, 220]);
+  const gridY = useTransform(scrollY, [0, 1600], [0, -120]);
+  const dpadLayerY = useTransform(scrollY, [0, 1600], [0, -180]);
+  const glowY = useTransform(scrollY, [0, 1600], [0, 140]);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 767px)");
@@ -478,66 +511,89 @@ function VRBackground() {
 
   return (
     <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(34,211,238,0.16),transparent_28%),radial-gradient(circle_at_80%_20%,rgba(59,130,246,0.14),transparent_24%),linear-gradient(to_bottom,#08101f,#0b1020,#050816)]" />
+      <MotionDiv
+        style={{ y: backgroundY }}
+        className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(34,211,238,0.16),transparent_28%),radial-gradient(circle_at_80%_20%,rgba(59,130,246,0.14),transparent_24%),linear-gradient(to_bottom,#08101f,#0b1020,#050816)]"
+      />
 
-      <div className="absolute inset-0 opacity-20 [background-image:linear-gradient(rgba(34,211,238,0.10)_1px,transparent_1px),linear-gradient(90deg,rgba(34,211,238,0.10)_1px,transparent_1px)] [background-size:90px_90px] [mask-image:radial-gradient(circle_at_center,black,transparent_85%)]" />
+      <MotionDiv
+        style={{ y: gridY }}
+        className="absolute inset-0 opacity-20 [background-image:linear-gradient(rgba(34,211,238,0.10)_1px,transparent_1px),linear-gradient(90deg,rgba(34,211,238,0.10)_1px,transparent_1px)] [background-size:90px_90px] [mask-image:radial-gradient(circle_at_center,black,transparent_85%)]"
+      />
 
-      {dpadConfigs.map((cfg, idx) => (
-        <MotionImg
-          key={`dpad-${idx}`}
-          src={`${base}Dpad.png`}
-          alt=""
-          aria-hidden="true"
-          className="pointer-events-none absolute select-none"
-          style={{
-            top: cfg.top,
-            left: cfg.left,
-            width: `${cfg.width}px`,
-            height: `${cfg.width}px`,
-            zIndex: 0,
-            transform: "translate3d(-50%, -50%, 0)",
-            filter: isMobile
-              ? "invert(1) saturate(0.8) brightness(0.7)"
-              : `invert(1) sepia(1) saturate(900) hue-rotate(${cfg.hue}deg) contrast(1.4) brightness(1.1)`,
-            opacity: cfg.opacity,
-            willChange: isMobile ? "auto" : "transform, opacity",
-          }}
-          initial={{ x: 0, y: 0, rotate: cfg.rotate, opacity: cfg.opacity }}
-          animate={{
-            x: isMobile ? 0 : [0, cfg.xMotion, 0],
-            y: isMobile ? 0 : [0, cfg.yMotion, 0],
-            rotate: isMobile ? cfg.rotate : [cfg.rotate, cfg.rotate + 10, cfg.rotate],
-            opacity: isMobile
-              ? cfg.opacity
-              : [cfg.opacity * 0.7, cfg.opacity, cfg.opacity * 0.7],
-          }}
-          transition={{
-            duration: isMobile ? 0 : 6 + (idx % 3),
-            repeat: isMobile ? 0 : Infinity,
-            ease: "easeInOut",
-            delay: cfg.delay,
-          }}
-        />
-      ))}
+      <MotionDiv style={{ y: dpadLayerY }} className="absolute inset-0">
+        {dpadConfigs.map((cfg, idx) => (
+          <MotionImg
+            key={`dpad-${idx}`}
+            src={`${base}Dpad.png`}
+            alt=""
+            aria-hidden="true"
+            className="pointer-events-none absolute select-none"
+            style={{
+              top: cfg.top,
+              left: cfg.left,
+              width: `${cfg.width}px`,
+              height: `${cfg.width}px`,
+              zIndex: 0,
+              transform: "translate3d(-50%, -50%, 0)",
+              filter: isMobile
+                ? "invert(1) saturate(0.8) brightness(0.7)"
+                : `invert(1) sepia(1) saturate(900) hue-rotate(${cfg.hue}deg) contrast(1.4) brightness(1.1)`,
+              opacity: cfg.opacity,
+              willChange: isMobile ? "auto" : "transform, opacity",
+            }}
+            initial={{ x: 0, y: 0, rotate: cfg.rotate, opacity: cfg.opacity }}
+            animate={{
+              x: isMobile ? 0 : [0, cfg.xMotion, 0],
+              y: isMobile ? 0 : [0, cfg.yMotion, 0],
+              rotate: isMobile ? cfg.rotate : [cfg.rotate, cfg.rotate + 10, cfg.rotate],
+              opacity: isMobile
+                ? cfg.opacity
+                : [cfg.opacity * 0.7, cfg.opacity, cfg.opacity * 0.7],
+            }}
+            transition={{
+              duration: isMobile ? 0 : 6 + (idx % 3),
+              repeat: isMobile ? 0 : Infinity,
+              ease: "easeInOut",
+              delay: cfg.delay,
+            }}
+          />
+        ))}
+      </MotionDiv>
 
-      <div className="absolute bottom-0 left-0 right-0 h-64 bg-[linear-gradient(to_top,rgba(34,211,238,0.07),transparent)]" />
+      <MotionDiv
+        style={{ y: glowY }}
+        className="absolute bottom-0 left-0 right-0 h-64 bg-[linear-gradient(to_top,rgba(34,211,238,0.07),transparent)]"
+      />
     </div>
   );
 }
 
 function PortfolioMiniGame({ sceneRef }) {
+  const base = import.meta.env.BASE_URL;
   const PLAYER_WIDTH = 34;
   const PLAYER_HEIGHT = 48;
   const STEP_HEIGHT = 16;
+  const FLOOR_BOTTOM_OFFSET = 50;
+  const WALL_INSET = 5;
+  const DEBUG_COLLIDERS = false;
+  const FALL_SCROLL_TRIGGER = 80;
+  const FALL_SCROLL_CENTER_RATIO = 0.62;
+  const FALL_SCROLL_SMOOTHING = 0.08;
+  const FALL_SCROLL_MIN_STEP = 8;
+  const RISE_SCROLL_TRIGGER = 90;
+  const RISE_SCROLL_CENTER_RATIO = 0.42;
+  const RISE_SCROLL_SMOOTHING = 0.08;
+  const RISE_SCROLL_MIN_STEP = 14;
   const MOVE_SPEED = 380;
   const ACCELERATION = 2600;
   const AIR_CONTROL = 1800;
-  const JUMP_VELOCITY = 860;
-  const GRAVITY = 1000;
+  const JUMP_VELOCITY = 1200;
+  const GRAVITY = 3000;
   const playerElementRef = useRef(null);
   const tooltipElementRef = useRef(null);
   const tooltipFollowYRef = useRef(
-    typeof window !== "undefined" ? window.scrollY + 80 : 80,
+    typeof window !== "undefined" ? window.scrollY + 200 : 200,
   );
   const keysRef = useRef({
     left: false,
@@ -546,6 +602,7 @@ function PortfolioMiniGame({ sceneRef }) {
   });
   const jumpQueuedRef = useRef(false);
   const platformElementsRef = useRef([]);
+  const stepPlatformsRef = useRef([]);
   const groundedPlatformRef = useRef(null);
   const sceneHeightRef = useRef(0);
   const sceneWidthRef = useRef(0);
@@ -644,7 +701,7 @@ function PortfolioMiniGame({ sceneRef }) {
     const followTooltip = () => {
       const tooltipElement = tooltipElementRef.current;
       if (tooltipElement) {
-        const targetY = window.scrollY + 80;
+        const targetY = window.scrollY + 200;
         const currentY = tooltipFollowYRef.current;
         const nextY = currentY + (targetY - currentY) * 0.16;
 
@@ -815,7 +872,9 @@ function PortfolioMiniGame({ sceneRef }) {
 
       sceneHeightRef.current = scene.scrollHeight;
       sceneWidthRef.current = scene.clientWidth;
-      setStepPlatforms(buildSectionStepPlatforms(scene));
+      const nextStepPlatforms = buildSectionStepPlatforms(scene);
+      stepPlatformsRef.current = nextStepPlatforms;
+      setStepPlatforms(nextStepPlatforms);
 
       const platformRects = getPlatformRects();
 
@@ -856,7 +915,7 @@ function PortfolioMiniGame({ sceneRef }) {
       resizeObserver.disconnect();
       window.removeEventListener("resize", measurePlatforms);
     };
-  }, [sceneRef, minigameEnabled]);
+  }, [sceneRef, minigameEnabled, base]);
 
   useEffect(() => {
     if (!minigameEnabled) {
@@ -889,7 +948,7 @@ function PortfolioMiniGame({ sceneRef }) {
           height: rect.height,
         };
       });
-      const sectionStepPlatforms = buildSectionStepPlatforms(scene);
+      const sectionStepPlatforms = stepPlatformsRef.current;
       const platforms = [...basePlatforms, ...sectionStepPlatforms];
 
       if (!player.initialized) {
@@ -954,9 +1013,12 @@ function PortfolioMiniGame({ sceneRef }) {
       const nextBottom = nextY + PLAYER_HEIGHT;
       const sceneWidth = sceneWidthRef.current || window.innerWidth;
       const sceneHeight = sceneHeightRef.current || window.innerHeight;
-      const floorY = sceneHeight - PLAYER_HEIGHT - 24;
+      const floorY = sceneHeight - PLAYER_HEIGHT - FLOOR_BOTTOM_OFFSET;
 
-      nextX = Math.max(10, Math.min(sceneWidth - PLAYER_WIDTH - 10, nextX));
+      nextX = Math.max(
+        WALL_INSET,
+        Math.min(sceneWidth - PLAYER_WIDTH - WALL_INSET, nextX),
+      );
 
       let landedPlatform = null;
 
@@ -1000,23 +1062,35 @@ function PortfolioMiniGame({ sceneRef }) {
 
       const viewportTop = window.scrollY;
       const viewportBottom = viewportTop + window.innerHeight;
+      const viewportHeight = window.innerHeight;
       const playerBottom = player.y + PLAYER_HEIGHT;
       const playerTop = player.y;
+      const playerCenter = player.y + PLAYER_HEIGHT / 2;
       const canAutoScroll =
         performance.now() >= userScrollPriorityUntilRef.current;
 
-      if (canAutoScroll && player.vy > 0 && playerBottom > viewportBottom - 80) {
+      if (
+        canAutoScroll &&
+        player.vy > 0 &&
+        playerBottom > viewportBottom - FALL_SCROLL_TRIGGER
+      ) {
         const maxScrollTop =
           document.documentElement.scrollHeight - window.innerHeight;
+        const desiredPlayerCenter = viewportHeight * FALL_SCROLL_CENTER_RATIO;
         const targetScrollTop = Math.min(
           maxScrollTop,
-          playerBottom - window.innerHeight + 120,
+          Math.max(viewportTop, playerCenter - desiredPlayerCenter),
         );
 
         if (targetScrollTop > viewportTop) {
+          const scrollDelta = targetScrollTop - viewportTop;
           autoScrollLockRef.current = true;
           window.scrollTo({
-            top: Math.min(targetScrollTop, viewportTop + 18),
+            top: Math.min(
+              targetScrollTop,
+              viewportTop +
+                Math.max(FALL_SCROLL_MIN_STEP, scrollDelta * FALL_SCROLL_SMOOTHING),
+            ),
             behavior: "auto",
           });
           requestAnimationFrame(() => {
@@ -1025,13 +1099,19 @@ function PortfolioMiniGame({ sceneRef }) {
         }
       }
 
-      if (canAutoScroll && player.vy < 0 && playerTop < viewportTop + 90) {
-        const targetScrollTop = Math.max(0, playerTop - 120);
+      if (canAutoScroll && player.vy < 0 && playerTop < viewportTop + RISE_SCROLL_TRIGGER) {
+        const desiredPlayerCenter = viewportHeight * RISE_SCROLL_CENTER_RATIO;
+        const targetScrollTop = Math.max(0, playerCenter - desiredPlayerCenter);
 
         if (targetScrollTop < viewportTop) {
+          const scrollDelta = viewportTop - targetScrollTop;
           autoScrollLockRef.current = true;
           window.scrollTo({
-            top: Math.max(targetScrollTop, viewportTop - 18),
+            top: Math.max(
+              targetScrollTop,
+              viewportTop -
+                Math.max(RISE_SCROLL_MIN_STEP, scrollDelta * RISE_SCROLL_SMOOTHING),
+            ),
             behavior: "auto",
           });
           requestAnimationFrame(() => {
@@ -1110,6 +1190,38 @@ function PortfolioMiniGame({ sceneRef }) {
         </div>
       ))}
 
+      {DEBUG_COLLIDERS ? (
+        <>
+          <div
+            className="absolute border-t-2 border-dashed border-amber-300/80 bg-amber-400/10"
+            style={{
+              left: `${WALL_INSET}px`,
+              top: `${(sceneHeightRef.current || 0) - FLOOR_BOTTOM_OFFSET - 2}px`,
+              width: `${Math.max(0, (sceneWidthRef.current || 0) - WALL_INSET * 2)}px`,
+              height: "8px",
+            }}
+          />
+          <div
+            className="absolute border-l-2 border-dashed border-rose-300/80 bg-rose-400/10"
+            style={{
+              left: `${WALL_INSET}px`,
+              top: "0px",
+              width: "8px",
+              height: `${sceneHeightRef.current || 0}px`,
+            }}
+          />
+          <div
+            className="absolute border-r-2 border-dashed border-rose-300/80 bg-rose-400/10"
+            style={{
+              left: `${Math.max(0, (sceneWidthRef.current || 0) - WALL_INSET - 8)}px`,
+              top: "0px",
+              width: "8px",
+              height: `${sceneHeightRef.current || 0}px`,
+            }}
+          />
+        </>
+      ) : null}
+
       {playerState.ready ? (
         <div
           ref={playerElementRef}
@@ -1149,7 +1261,7 @@ function PortfolioMiniGame({ sceneRef }) {
         data-spawn-platform="true"
         className="absolute right-4 top-0 max-w-[230px] rounded-2xl border border-cyan-300/30 bg-slate-950/70 px-4 py-3 text-xs text-cyan-100 shadow-[0_0_24px_rgba(34,211,238,0.18)] backdrop-blur-md"
         style={{
-          transform: "translate3d(0, 80px, 0)",
+          transform: "translate3d(0, 200px, 0)",
           willChange: "transform",
         }}
       >
@@ -1205,19 +1317,218 @@ function Hero3DCard() {
   const base = import.meta.env.BASE_URL;
   const MotionDiv = motion.div;
   const MotionImg = motion.img;
+  const { scrollY } = useScroll();
+  const orbitItemRefs = useRef({});
+  const hoverLeaveTimeoutRef = useRef(null);
+  const [isCompactHero, setIsCompactHero] = useState(() =>
+    typeof window !== "undefined"
+      ? window.matchMedia("(max-width: 767px)").matches
+      : false,
+  );
+  const [supportsHover, setSupportsHover] = useState(() =>
+    typeof window !== "undefined"
+      ? window.matchMedia("(hover: hover) and (pointer: fine)").matches
+      : true,
+  );
+  const [hoveredOrbitKey, setHoveredOrbitKey] = useState(null);
+  const [hoveredLabel, setHoveredLabel] = useState(null);
+  const [hoveredLabelPosition, setHoveredLabelPosition] = useState({
+    left: 0,
+    top: 0,
+  });
+  const smoothScrollY = useSpring(scrollY, {
+    stiffness: 55,
+    damping: 20,
+    mass: 0.8,
+  });
+  const shellY = useTransform(smoothScrollY, [0, 900], [0, 22]);
+  const orbitY = useTransform(smoothScrollY, [0, 900], [0, 12]);
+  const haloY = useTransform(smoothScrollY, [0, 900], [0, 8]);
+  const orbitRadius = isCompactHero ? 160 : 270;
+  const orbitItems = [
+    {
+      key: "controller",
+      src: `${base}controller2.png`,
+      alt: "Controller",
+      label: "Console Games",
+      size: "w-16 sm:w-24 md:w-32",
+      radius: orbitRadius,
+      duration: 90,
+      delay: 0,
+      transform: {
+        x: 0,
+        y: 0,
+        scale: 1,
+        rotate:0,
+        tilt: 0,
+        floatY: 10,
+        labelOffsetY: 2,
+      },
+    },
+    {
+      key: "orb-1",
+      src: `${base}orbit-item-1.png`,
+      alt: "Orbit item 1",
+      label: "Mobile Games",
+      placeholder: "PNG",
+      size: "h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14",
+      radius: orbitRadius,
+      duration: 90,
+      delay: 0,
+      transform: {
+        x: 0,
+        y: 0,
+        scale: isCompactHero ? 1.25 : 2,
+        rotate:0,
+        tilt: -90,
+        floatY: 10,
+        labelOffsetY: 5,
+      },
+    },
+    {
+      key: "orb-2",
+      src: `${base}orbit-item-2.png`,
+      alt: "Orbit item 2",
+      label: "Desktop Games",
+      placeholder: "PNG",
+      size: "h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14",
+      radius: orbitRadius,
+      duration: 90,
+      delay: 0,
+      transform: {
+        x: 0,
+        y: 0,
+        scale: isCompactHero ? 1.35 : 3,
+        rotate: 0,
+        tilt: -120,
+        floatY: 10,
+        labelOffsetY: -60,
+      },
+    },
+    {
+      key: "orb-3",
+      src: `${base}orbit-item-3.png`,
+      alt: "Orbit item 3",
+      label: "Handheld Games",
+      placeholder: "PNG",
+      size: "h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14",
+      radius: orbitRadius,
+      duration: 90,
+      delay: 0,
+      transform: {
+        x: 0,
+        y: 0,
+        scale: isCompactHero ? 1.35 : 3,
+        rotate: 0,
+        tilt: 120,
+        floatY: 10,
+        labelOffsetY: -45,
+      },
+    },
+    {
+      key: "orb-4",
+      src: `${base}orbit-item-4.png`,
+      alt: "Orbit item 4",
+      label: "Augmented Reality",
+      placeholder: "PNG",
+      size: "h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14",
+      radius: orbitRadius,
+      duration: 90,
+      delay: 0,
+      transform: {
+        x: 0,
+        y: 0,
+        scale: isCompactHero ? 1.35 : 3,
+        rotate:0,
+        tilt: 45,
+        floatY: 10,
+        labelOffsetY: -35,
+      },
+    },
+  ];
+
+  useEffect(() => {
+    if (!hoveredOrbitKey) {
+      return undefined;
+    }
+
+    let frameId = 0;
+
+    const updateLabelPosition = () => {
+      const element = orbitItemRefs.current[hoveredOrbitKey];
+      const activeItem = orbitItems.find((item) => item.key === hoveredOrbitKey);
+      const labelOffsetY = activeItem?.transform?.labelOffsetY ?? 2;
+
+      if (element) {
+        const rect = element.getBoundingClientRect();
+
+        setHoveredLabelPosition({
+          left: rect.left + rect.width / 2,
+          top: rect.top - labelOffsetY,
+        });
+      }
+
+      frameId = window.requestAnimationFrame(updateLabelPosition);
+    };
+
+    frameId = window.requestAnimationFrame(updateLabelPosition);
+
+    return () => window.cancelAnimationFrame(frameId);
+  }, [hoveredOrbitKey]);
+
+  useEffect(() => {
+    return () => {
+      if (hoverLeaveTimeoutRef.current) {
+        window.clearTimeout(hoverLeaveTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const compactQuery = window.matchMedia("(max-width: 767px)");
+    const hoverQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
+
+    const syncCompact = (event) => setIsCompactHero(event.matches);
+    const syncHover = (event) => setSupportsHover(event.matches);
+
+    compactQuery.addEventListener("change", syncCompact);
+    hoverQuery.addEventListener("change", syncHover);
+
+    return () => {
+      compactQuery.removeEventListener("change", syncCompact);
+      hoverQuery.removeEventListener("change", syncHover);
+    };
+  }, []);
 
   return (
     <MotionDiv
+      style={{ y: shellY }}
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.9, delay: 0.15 }}
       className="flex justify-center"
     >
+      {supportsHover && hoveredLabel ? (
+        <div
+          className="pointer-events-none fixed z-40 -translate-x-1/2 -translate-y-full"
+          style={{
+            left: `${hoveredLabelPosition.left}px`,
+            top: `${hoveredLabelPosition.top}px`,
+          }}
+        >
+          <div className="rounded-full border border-cyan-300/35 bg-slate-950/92 px-3 py-1.5 text-[0.62rem] uppercase tracking-[0.24em] text-cyan-100 shadow-[0_0_18px_rgba(34,211,238,0.18)] whitespace-nowrap backdrop-blur-md">
+            {hoveredLabel}
+          </div>
+        </div>
+      ) : null}
+
       <div className="relative h-[240px] w-[240px] sm:h-[300px] sm:w-[300px] md:h-[360px] md:w-[360px]">
-        <div className="absolute inset-0 rounded-full bg-cyan-400/20 blur-3xl" />
+        <MotionDiv
+          style={{ y: haloY }}
+          className="absolute inset-0 rounded-full bg-cyan-400/20 blur-3xl"
+        />
 
         <MotionDiv
-          data-platform="true"
           className="relative h-full w-full"
           animate={{ y: [0, -25, 0] }}
           transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
@@ -1225,20 +1536,137 @@ function Hero3DCard() {
           <img
             src={`${base}vr-headset.png`}
             alt="VR Headset"
-            data-platform="true"
             className="h-full w-full object-contain drop-shadow-[0_0_40px_rgba(34,211,238,0.5)]"
           />
         </MotionDiv>
 
-        <MotionImg
-          src={`${base}controller2.png`}
-          alt="Controller"
-          data-platform="true"
-          className="absolute right-[-60px] top-1/2 w-16 -translate-y-1/2 drop-shadow-[0_0_30px_rgba(34,211,238,0.35)] sm:right-[-100px] sm:w-24 md:right-[-160px] md:w-32"
-          animate={{ y: [0, -35, 0] }}
-          transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
-        />
+        <MotionDiv
+          style={{ y: orbitY }}
+          className="pointer-events-none absolute inset-[-8%] sm:inset-[-14%] md:inset-[-24%]"
+        >
+          <div className="absolute inset-0 rounded-full border border-cyan-300/12" />
+          <div className="absolute inset-[11%] rounded-full border border-cyan-300/6" />
+
+          {orbitItems.map((item, index) => {
+            const angle = (360 / orbitItems.length) * index;
+            const orbitAngle = angle + (item.transform?.rotate ?? 0);
+
+            return (
+            <MotionDiv
+              key={item.key}
+              className="absolute inset-0 z-10"
+              style={{ rotate: orbitAngle }}
+              animate={{ rotate: orbitAngle + 360 }}
+              transition={{
+                duration: item.duration,
+                repeat: Infinity,
+                ease: "linear",
+                delay: item.delay,
+              }}
+            >
+              <div className="absolute inset-0 flex items-center justify-center">
+                <MotionDiv
+                  className="group relative pointer-events-auto"
+                  style={{
+                    x: item.radius + (item.transform?.x ?? 0),
+                    y: item.transform?.y ?? 0,
+                  }}
+                  animate={{
+                    rotate: -360,
+                    y: [
+                      item.transform?.y ?? 0,
+                      (item.transform?.y ?? 0) - (item.transform?.floatY ?? 10),
+                      item.transform?.y ?? 0,
+                    ],
+                  }}
+                  transition={{
+                    rotate: {
+                      duration: item.duration,
+                      repeat: Infinity,
+                      ease: "linear",
+                    },
+                    y: {
+                      duration: 4.5,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    },
+                  }}
+                  onMouseEnter={() => {
+                    if (!supportsHover) {
+                      return;
+                    }
+                    if (hoverLeaveTimeoutRef.current) {
+                      window.clearTimeout(hoverLeaveTimeoutRef.current);
+                      hoverLeaveTimeoutRef.current = null;
+                    }
+                    setHoveredOrbitKey(item.key);
+                    setHoveredLabel(item.label);
+                  }}
+                  onMouseLeave={() => {
+                    if (!supportsHover) {
+                      return;
+                    }
+                    hoverLeaveTimeoutRef.current = window.setTimeout(() => {
+                      setHoveredOrbitKey(null);
+                      setHoveredLabel(null);
+                      hoverLeaveTimeoutRef.current = null;
+                    }, 120);
+                  }}
+                >
+                  <div
+                    ref={(node) => {
+                      orbitItemRefs.current[item.key] = node;
+                    }}
+                    style={{
+                      transform: `scale(${item.transform?.scale ?? 1}) rotate(${item.transform?.tilt ?? 0}deg)`,
+                    }}
+                    className="relative z-20"
+                  >
+                    {item.placeholder ? (
+                      <OrbitingPlaceholder
+                        src={item.src}
+                        alt={item.alt}
+                        label={item.placeholder}
+                        className={item.size}
+                      />
+                    ) : (
+                      <MotionImg
+                        src={item.src}
+                        alt={item.alt}
+                        className={`${item.size} relative cursor-pointer drop-shadow-[0_0_30px_rgba(34,211,238,0.5)]`}
+                      />
+                    )}
+                  </div>
+                </MotionDiv>
+              </div>
+            </MotionDiv>
+            );
+          })}
+        </MotionDiv>
       </div>
     </MotionDiv>
+  );
+}
+
+function OrbitingPlaceholder({ src, alt, label, className }) {
+  const [hasAsset, setHasAsset] = useState(true);
+
+  return (
+    <>
+      {hasAsset ? (
+        <img
+          src={src}
+          alt={alt}
+          className={`${className} cursor-pointer object-contain drop-shadow-[0_0_22px_rgba(34,211,238,0.35)]`}
+          onError={() => setHasAsset(false)}
+        />
+      ) : (
+        <div
+          className={`flex ${className} items-center justify-center rounded-full border border-dashed border-cyan-300/45 bg-slate-950/75 px-2 text-[0.42rem] uppercase tracking-[0.14em] text-cyan-200/70 shadow-[0_0_16px_rgba(34,211,238,0.12)] sm:text-[0.46rem] md:text-[0.5rem]`}
+        >
+          {label}
+        </div>
+      )}
+    </>
   );
 }

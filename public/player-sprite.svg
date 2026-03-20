@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="384" height="64" viewBox="0 0 384 64" fill="none">
+  <defs>
+    <g id="frame-idle-1">
+      <ellipse cx="24" cy="13" rx="8" ry="9" fill="#f0c7a4"/>
+      <path d="M17 12c2-7 12-10 17-2 2 4 1 8-2 10-2-5-5-7-9-8-2 2-4 4-6 7-2-1-2-4 0-7Z" fill="#241b27"/>
+      <path d="M18 22h12l7 13-5 17H16l-4-17 6-13Z" fill="#1f2937"/>
+      <path d="M20 23h8v12h-8z" fill="#f4f7fb"/>
+      <path d="M18 24h12v3H18z" fill="#6b7280"/>
+      <path d="M24 27l-3 8h6l-3-8Z" fill="#14b8a6"/>
+      <rect x="11" y="26" width="5" height="16" rx="2.5" fill="#1f2937"/>
+      <rect x="32" y="26" width="5" height="16" rx="2.5" fill="#1f2937"/>
+      <rect x="17" y="52" width="5" height="10" rx="2.5" fill="#0f172a"/>
+      <rect x="27" y="52" width="5" height="10" rx="2.5" fill="#0f172a"/>
+      <rect x="15" y="60" width="9" height="3" rx="1.5" fill="#111827"/>
+      <rect x="25" y="60" width="9" height="3" rx="1.5" fill="#111827"/>
+    </g>
+    <g id="frame-idle-2">
+      <ellipse cx="24" cy="13" rx="8" ry="9" fill="#f0c7a4"/>
+      <path d="M17 11c2-7 12-10 17-2 2 4 1 8-2 10-1-5-5-7-9-8-2 2-4 4-7 8-2-1-2-5 1-8Z" fill="#241b27"/>
+      <path d="M18 22h12l7 13-5 17H16l-4-17 6-13Z" fill="#1f2937"/>
+      <path d="M20 23h8v12h-8z" fill="#f4f7fb"/>
+      <path d="M24 27l-3 8h6l-3-8Z" fill="#14b8a6"/>
+      <rect x="10" y="28" width="5" height="14" rx="2.5" transform="rotate(-8 10 28)" fill="#1f2937"/>
+      <rect x="33" y="27" width="5" height="15" rx="2.5" transform="rotate(8 33 27)" fill="#1f2937"/>
+      <rect x="18" y="52" width="5" height="10" rx="2.5" fill="#0f172a"/>
+      <rect x="26" y="52" width="5" height="10" rx="2.5" fill="#0f172a"/>
+      <rect x="16" y="60" width="8" height="3" rx="1.5" fill="#111827"/>
+      <rect x="25" y="60" width="8" height="3" rx="1.5" fill="#111827"/>
+    </g>
+    <g id="frame-run-1">
+      <ellipse cx="24" cy="13" rx="8" ry="9" fill="#f0c7a4"/>
+      <path d="M16 11c2-6 11-10 16-3 3 4 2 8-1 11-2-5-5-7-10-8-2 1-4 3-5 7-2-1-2-4 0-7Z" fill="#241b27"/>
+      <path d="M18 22h12l7 12-5 17H16l-4-17 6-12Z" fill="#1f2937"/>
+      <path d="M20 23h8v11h-8z" fill="#f4f7fb"/>
+      <path d="M24 27l-3 7h6l-3-7Z" fill="#14b8a6"/>
+      <rect x="12" y="28" width="5" height="14" rx="2.5" transform="rotate(18 12 28)" fill="#1f2937"/>
+      <rect x="31" y="26" width="5" height="16" rx="2.5" transform="rotate(-14 31 26)" fill="#1f2937"/>
+      <rect x="15" y="50" width="5" height="13" rx="2.5" transform="rotate(28 15 50)" fill="#0f172a"/>
+      <rect x="28" y="50" width="5" height="13" rx="2.5" transform="rotate(-12 28 50)" fill="#0f172a"/>
+      <rect x="12" y="59" width="10" height="3" rx="1.5" transform="rotate(10 12 59)" fill="#111827"/>
+      <rect x="27" y="60" width="10" height="3" rx="1.5" transform="rotate(-6 27 60)" fill="#111827"/>
+    </g>
+    <g id="frame-run-2">
+      <ellipse cx="24" cy="13" rx="8" ry="9" fill="#f0c7a4"/>
+      <path d="M16 11c2-6 11-10 16-3 3 4 2 8-1 11-2-5-5-7-10-8-2 1-4 3-5 7-2-1-2-4 0-7Z" fill="#241b27"/>
+      <path d="M18 22h12l7 12-5 17H16l-4-17 6-12Z" fill="#1f2937"/>
+      <path d="M20 23h8v11h-8z" fill="#f4f7fb"/>
+      <path d="M24 27l-3 7h6l-3-7Z" fill="#14b8a6"/>
+      <rect x="11" y="27" width="5" height="15" rx="2.5" transform="rotate(-12 11 27)" fill="#1f2937"/>
+      <rect x="33" y="29" width="5" height="14" rx="2.5" transform="rotate(16 33 29)" fill="#1f2937"/>
+      <rect x="18" y="50" width="5" height="13" rx="2.5" transform="rotate(-12 18 50)" fill="#0f172a"/>
+      <rect x="27" y="49" width="5" height="14" rx="2.5" transform="rotate(26 27 49)" fill="#0f172a"/>
+      <rect x="16" y="60" width="10" height="3" rx="1.5" transform="rotate(-5 16 60)" fill="#111827"/>
+      <rect x="24" y="58" width="11" height="3" rx="1.5" transform="rotate(10 24 58)" fill="#111827"/>
+    </g>
+    <g id="frame-run-3">
+      <ellipse cx="24" cy="13" rx="8" ry="9" fill="#f0c7a4"/>
+      <path d="M16 11c2-6 11-10 16-3 3 4 2 8-1 11-2-5-5-7-10-8-2 1-4 3-5 7-2-1-2-4 0-7Z" fill="#241b27"/>
+      <path d="M18 22h12l7 12-5 17H16l-4-17 6-12Z" fill="#1f2937"/>
+      <path d="M20 23h8v11h-8z" fill="#f4f7fb"/>
+      <path d="M24 27l-3 7h6l-3-7Z" fill="#14b8a6"/>
+      <rect x="12" y="28" width="5" height="14" rx="2.5" transform="rotate(20 12 28)" fill="#1f2937"/>
+      <rect x="31" y="26" width="5" height="16" rx="2.5" transform="rotate(-16 31 26)" fill="#1f2937"/>
+      <rect x="15" y="49" width="5" height="14" rx="2.5" transform="rotate(18 15 49)" fill="#0f172a"/>
+      <rect x="29" y="51" width="5" height="12" rx="2.5" transform="rotate(-20 29 51)" fill="#0f172a"/>
+      <rect x="12" y="58" width="10" height="3" rx="1.5" transform="rotate(8 12 58)" fill="#111827"/>
+      <rect x="28" y="61" width="9" height="3" rx="1.5" transform="rotate(-10 28 61)" fill="#111827"/>
+    </g>
+    <g id="frame-run-4">
+      <ellipse cx="24" cy="13" rx="8" ry="9" fill="#f0c7a4"/>
+      <path d="M16 11c2-6 11-10 16-3 3 4 2 8-1 11-2-5-5-7-10-8-2 1-4 3-5 7-2-1-2-4 0-7Z" fill="#241b27"/>
+      <path d="M18 22h12l7 12-5 17H16l-4-17 6-12Z" fill="#1f2937"/>
+      <path d="M20 23h8v11h-8z" fill="#f4f7fb"/>
+      <path d="M24 27l-3 7h6l-3-7Z" fill="#14b8a6"/>
+      <rect x="11" y="28" width="5" height="14" rx="2.5" transform="rotate(-18 11 28)" fill="#1f2937"/>
+      <rect x="33" y="28" width="5" height="14" rx="2.5" transform="rotate(20 33 28)" fill="#1f2937"/>
+      <rect x="18" y="49" width="5" height="14" rx="2.5" transform="rotate(-20 18 49)" fill="#0f172a"/>
+      <rect x="26" y="49" width="5" height="14" rx="2.5" transform="rotate(18 26 49)" fill="#0f172a"/>
+      <rect x="16" y="61" width="9" height="3" rx="1.5" transform="rotate(-12 16 61)" fill="#111827"/>
+      <rect x="24" y="57" width="10" height="3" rx="1.5" transform="rotate(8 24 57)" fill="#111827"/>
+    </g>
+    <g id="frame-jump">
+      <ellipse cx="24" cy="12" rx="8" ry="9" fill="#f0c7a4"/>
+      <path d="M16 10c2-6 11-10 16-3 3 4 2 8-1 11-2-5-5-7-10-8-2 1-4 3-5 7-2-1-2-4 0-7Z" fill="#241b27"/>
+      <path d="M18 21h12l7 12-5 17H16l-4-17 6-12Z" fill="#1f2937"/>
+      <path d="M20 22h8v11h-8z" fill="#f4f7fb"/>
+      <path d="M24 25l-3 8h6l-3-8Z" fill="#14b8a6"/>
+      <rect x="11" y="26" width="5" height="14" rx="2.5" transform="rotate(-28 11 26)" fill="#1f2937"/>
+      <rect x="33" y="26" width="5" height="14" rx="2.5" transform="rotate(28 33 26)" fill="#1f2937"/>
+      <rect x="15" y="49" width="5" height="13" rx="2.5" transform="rotate(28 15 49)" fill="#0f172a"/>
+      <rect x="28" y="49" width="5" height="13" rx="2.5" transform="rotate(-28 28 49)" fill="#0f172a"/>
+      <rect x="12" y="57" width="9" height="3" rx="1.5" transform="rotate(22 12 57)" fill="#111827"/>
+      <rect x="27" y="57" width="9" height="3" rx="1.5" transform="rotate(-22 27 57)" fill="#111827"/>
+    </g>
+    <g id="frame-fall">
+      <ellipse cx="24" cy="13" rx="8" ry="9" fill="#f0c7a4"/>
+      <path d="M16 11c2-6 11-10 16-3 3 4 2 8-1 11-2-5-5-7-10-8-2 1-4 3-5 7-2-1-2-4 0-7Z" fill="#241b27"/>
+      <path d="M18 22h12l7 12-5 17H16l-4-17 6-12Z" fill="#1f2937"/>
+      <path d="M20 23h8v11h-8z" fill="#f4f7fb"/>
+      <path d="M24 27l-3 7h6l-3-7Z" fill="#14b8a6"/>
+      <rect x="10" y="28" width="5" height="16" rx="2.5" transform="rotate(20 10 28)" fill="#1f2937"/>
+      <rect x="34" y="28" width="5" height="16" rx="2.5" transform="rotate(-20 34 28)" fill="#1f2937"/>
+      <rect x="19" y="50" width="5" height="13" rx="2.5" fill="#0f172a"/>
+      <rect x="25" y="50" width="5" height="13" rx="2.5" fill="#0f172a"/>
+      <rect x="17" y="61" width="8" height="3" rx="1.5" fill="#111827"/>
+      <rect x="24" y="61" width="8" height="3" rx="1.5" fill="#111827"/>
+    </g>
+  </defs>
+  <g transform="translate(0 0)"><use href="#frame-idle-1"/></g>
+  <g transform="translate(48 0)"><use href="#frame-idle-2"/></g>
+  <g transform="translate(96 0)"><use href="#frame-run-1"/></g>
+  <g transform="translate(144 0)"><use href="#frame-run-2"/></g>
+  <g transform="translate(192 0)"><use href="#frame-run-3"/></g>
+  <g transform="translate(240 0)"><use href="#frame-run-4"/></g>
+  <g transform="translate(288 0)"><use href="#frame-jump"/></g>
+  <g transform="translate(336 0)"><use href="#frame-fall"/></g>
+</svg>
