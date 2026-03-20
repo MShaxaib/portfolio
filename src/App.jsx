@@ -137,7 +137,7 @@ export default function App() {
         </header>
 
         <main>
-          <section className="mx-auto flex min-h-[70vh] max-w-6xl items-center px-4 py-14 sm:px-6 sm:py-16 md:py-20">
+          <section className="relative mx-auto flex min-h-[70vh] max-w-6xl overflow-hidden px-4 py-14 sm:px-6 sm:py-16 md:overflow-visible md:py-20">
             <div className="grid w-full items-center gap-10 md:grid-cols-2 md:gap-12">
               <MotionDiv
                 data-platform="true"
@@ -180,7 +180,7 @@ export default function App() {
 
               <MotionDiv
                 style={{ y: heroVisualY }}
-                className="order-1 flex justify-center md:order-2"
+                className="order-1 flex justify-center overflow-hidden md:order-2 md:overflow-visible"
               >
                 <Hero3DCard />
               </MotionDiv>
